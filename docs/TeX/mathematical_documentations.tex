@@ -1,0 +1,94 @@
+
+\documentclass[10pt]{article}
+
+%~~~~~~~~~~
+% preamble
+%~~~~~~~~~~
+
+%'
+%' common packages
+%'
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath,amssymb,dsfont}
+\numberwithin{equation}{section}
+\usepackage{microtype}
+\usepackage{graphicx,tikz,pgfplots}
+\graphicspath{{images/}}
+\pgfplotsset{compat=newest}
+\usepackage[hyperref,amsmath,thmmarks]{ntheorem}
+\usepackage{aliascnt}
+\usepackage[a4paper,centering,bindingoffset=0cm,marginpar=2cm,margin=2.5cm]{geometry}
+%\usepackage[pagestyles]{titlesec}
+\usepackage[font=footnotesize,format=plain,labelfont=sc,textfont=sl,width=0.75\textwidth,labelsep=period]{caption}
+\usepackage{bm}
+\usepackage{bbm}
+
+%'
+%' biblatex
+%'
+\usepackage[backend=biber,maxnames=10,backref=true,hyperref=true,giveninits=true,safeinputenc]{biblatex}
+
+
+\DefineBibliographyStrings{english}{%
+	backrefpage = {cited on page},
+	backrefpages = {cited on pages},
+}
+
+
+\title{Laplacian-of-Gaussians for scale-space blob detection}
+\author{FabianKP}
+\date{}
+
+%'
+%' writes the title always in quotes.
+%'
+\DeclareFieldFormat[report]{title}{``#1''}
+\DeclareFieldFormat[book]{title}{``#1''}
+\AtEveryBibitem{\clearfield{url}}
+\AtEveryBibitem{\clearfield{note}}
+
+
+\usepackage[pdftex,colorlinks=true,linkcolor=blue,citecolor=green,urlcolor=blue,bookmarks=true,bookmarksnumbered=true]{hyperref}
+\hypersetup
+{
+    pdfauthor={FabianKP},
+    pdfsubject={Mathematical documentation},
+    pdftitle={Laplacian-of-Gaussians for scale-space blob detection}
+}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\subsubsectionautorefname{Section}
+
+\graphicspath{{images/}}
+
+%
+% --------------- ABBREVIATIONS
+%
+
+\include{abbreviations}
+
+
+%
+% --------------- BEGIN DOCUMENT
+%
+
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+
+
+
+
+
+
+\addcontentsline{toc}{section}{Bibliography}
+
+\printbibliography
+
+\end{document}
