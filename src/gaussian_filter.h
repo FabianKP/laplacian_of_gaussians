@@ -6,7 +6,7 @@
 #define BLOBS_CPP_GAUSSIAN_FILTER_H
 
 #include <cstdlib>
-#include <math.h>
+#include <cmath>
 #include <opencv2/opencv.hpp>
 
 using namespace cv;
@@ -35,19 +35,7 @@ vector<double> discreteGaussianKernel(double sigma, double truncation=4.0){
 }
 
 
-void gaussianFilter1d(InputArray& input, OutputArray& output, double sigma, double truncation){
-    /**
-     @brief Implements a 1-dimensional Gaussian filter.
-     @param[input]  The input array.
-     @param[output] The array in which to write the result of the filter.ge.
-     @param[sigma] The standard deviation of the discrete Gaussian kernel.
-     @param[truncation] The filter kernel is truncated at radius truncation * sigma. Defaults to 4.
-     @return void.
-     */
-}
-
-
-void gaussianFilter2d(InputArray& input, OutputArray & output, double sigma1, double sigma2, double truncation){
+void gaussianFilter2d(Mat& input, Mat & output, double sigma1, double sigma2, double truncation){
     /**
      @brief Implements a 1-dimensional Gaussian filter.
      @param[input]  The input array.
@@ -57,6 +45,36 @@ void gaussianFilter2d(InputArray& input, OutputArray & output, double sigma1, do
      @param[truncation] The filter kernel is truncated at radius truncation * sigma. Defaults to 4.
      @return void.
      */
+    // Check that function parameters make sense.
+    //  - input should be a 2d image.
+    int idims = input.dims;
+    int icols = input.cols;
+    int irows = input.rows;
+    //  - output should be a 2d image of the same size.
+    int odims = output.dims;
+    int ocols = output.cols;
+    int orows = output.rows;
+    if (idims != 2 || odims != 2){
+        cerr << "Error: Atm, this program only supports twodimensional images." << endl;
+    }
+    if (icols != ocols || irows != orows){
+        cerr << "Error: Shape of input and output image must match." << endl;
+    }
+    //  - sigma should be nonnegative.
+    if (sigma1 < 0.){
+        cerr << "Error: sigma1 must be nonnegative." << endl;
+    }
+    if (sigma2 < 0.){
+        cerr << "Error: sigma1 must be nonnegative." << endl;
+    }
+    if (truncation <= 0.){
+        cerr << "Error: truncation must be a strictly positive number" << endl;
+    }
+    // Get the Bessel kernel.
+    vector<double> kernel1 = discreteGaussianKernel(sigma1, truncation);
+    vector<double> kernel2 = discreteGaussianKernel(sigma2, truncation);
+    // Perform two separate convolutions.
+    sepFilter2D(input, output, 1, kernel1, kernel2);
 }
 
 

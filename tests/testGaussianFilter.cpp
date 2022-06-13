@@ -15,6 +15,9 @@ using namespace boost;
 
 
 TEST_CASE( "Discrete Gaussian kernel", ""){
+    /**
+     * Test for discreteGaussianKernel
+     */
     double sigma = 3.0;
     vector<double> kernel = discreteGaussianKernel(sigma);
     int size = kernel.size();
@@ -38,6 +41,17 @@ TEST_CASE( "Discrete Gaussian kernel", ""){
     gp.send(gaussian);
 
     REQUIRE(size == required_size);
+}
+
+
+TEST_CASE("Gaussian filter 2d", ""){
+    /**
+     * Test for gaussianFilter2d.
+     */
+    // Load test image.
+    // Convolve test image.
+    // Show both images using OpenCV.
+
 }
 
 
