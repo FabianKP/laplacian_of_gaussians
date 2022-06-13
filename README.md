@@ -26,18 +26,13 @@ TODO:
 
 1. Write mathematical design doc. POSTPONED.
 2. Install opencv and test your installation (plot something). DONE
-3. Create test case for filtering. POSTPONED
-4. Create baseline (opencv_gaussian). POSTPONED
-5. Visualize test case. POSTPONED
-6. Implement one-dimensional convolution for images.
-7. Implement one-dimensional convolution with Bessel kernel.
-8. Implement N-dimensional convolution with Bessel kernel.
-9. Test.
-10. Implement Laplacian-of-Gaussians method.
-11. Implement all the other methods in Lindeber's 2013 paper.
-12. Remove dependency on OpenCV (i.e. implement convolution). 
-13. Implement affine blob detection.
-14. Implement a Python interface using pybind11.
+3. Implement N-dimensional convolution with Bessel kernel. DONE
+4. Test.
+5. Implement Laplacian-of-Gaussians method.
+6. Implement all the other methods in Lindeber's 2013 paper.
+7. Remove dependency on OpenCV (i.e. implement convolution). 
+8. Implement affine blob detection.
+9. Implement a Python interface using pybind11.
 
 Possible future features:
 -------------------------
