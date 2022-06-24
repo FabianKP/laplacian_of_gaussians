@@ -6,12 +6,17 @@
 #include "catch.hpp"
 #include "../blobs.h"
 #include <cstdlib>
+#include <fstream>
+#include <filesystem>
 #include <boost/math/distributions/normal.hpp>
+#include <opencv2/opencv.hpp>
 
 #include <gnuplot-iostream.h>
 
 
 using namespace boost;
+using namespace cv;
+using std::filesystem::current_path;
 
 
 TEST_CASE( "Discrete Gaussian kernel", ""){
@@ -48,10 +53,32 @@ TEST_CASE("Gaussian filter 2d", ""){
     /**
      * Test for gaussianFilter2d.
      */
+    // Set parameters.
+    double sigma1 = 5.0;
+    double sigma2 = 1.0;
     // Load test image.
+    // First, check if file exists.
+    ifstream ifile;
+    ifile.open("test_image.png");
+    REQUIRE(ifile);
+    Mat test_image;
+    test_image = imread( "test_image.png", IMREAD_GRAYSCALE);
+    REQUIRE(!test_image.empty());
+    // Convert to gray scale.
+    //cv::cvtColor(test_image, test_image, COLOR_BGR2GRAY);
     // Convolve test image.
+    Mat blurred_image = gaussianFilter2d(test_image, sigma1, sigma2);
     // Show both images using OpenCV.
-
+    String nameTest = "Original image";
+    String nameBlurred = "Filtered image with sigma1 = " + to_string(sigma1) + " and sigma2 = "
+            + to_string(sigma2);
+    namedWindow(nameTest, WINDOW_NORMAL);
+    namedWindow(nameBlurred, WINDOW_NORMAL);
+    imshow(nameTest, test_image);
+    imshow(nameBlurred, blurred_image);
+    waitKey(0);
+    destroyWindow(nameTest);
+    destroyWindow(nameBlurred);
 }
 
 

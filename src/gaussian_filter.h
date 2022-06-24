@@ -35,30 +35,20 @@ vector<double> discreteGaussianKernel(double sigma, double truncation=4.0){
 }
 
 
-void gaussianFilter2d(Mat& input, Mat & output, double sigma1, double sigma2, double truncation){
+Mat gaussianFilter2d(const Mat& image, double sigma1, double sigma2, double truncation=4.0){
     /**
      @brief Implements a 1-dimensional Gaussian filter.
      @param[input]  The input array.
-     @param[output] The array in which to write the result of the filter.ge.
      @param[sigma1] The standard deviation in vertical direction.
      @param[sigma2] The standard deviation in horizontal direction.
      @param[truncation] The filter kernel is truncated at radius truncation * sigma. Defaults to 4.
-     @return void.
+     @return The blurred image.
      */
     // Check that function parameters make sense.
     //  - input should be a 2d image.
-    int idims = input.dims;
-    int icols = input.cols;
-    int irows = input.rows;
-    //  - output should be a 2d image of the same size.
-    int odims = output.dims;
-    int ocols = output.cols;
-    int orows = output.rows;
-    if (idims != 2 || odims != 2){
+    int idims = image.dims;
+    if (idims != 2){
         cerr << "Error: Atm, this program only supports twodimensional images." << endl;
-    }
-    if (icols != ocols || irows != orows){
-        cerr << "Error: Shape of input and output image must match." << endl;
     }
     //  - sigma should be nonnegative.
     if (sigma1 < 0.){
@@ -74,7 +64,9 @@ void gaussianFilter2d(Mat& input, Mat & output, double sigma1, double sigma2, do
     vector<double> kernel1 = discreteGaussianKernel(sigma1, truncation);
     vector<double> kernel2 = discreteGaussianKernel(sigma2, truncation);
     // Perform two separate convolutions.
-    sepFilter2D(input, output, 1, kernel1, kernel2);
+    Mat output;
+    sepFilter2D(image, output, -1, kernel1, kernel2);
+    return output;
 }
 
 

@@ -9,7 +9,8 @@
 
 // Include local header files.
 #include "src/gaussian_filter.h"
-#include "src/convolution.h"
+#include "src/GaussianBlob.h"
+#include "src/log.h"
 
 void hello();
 
