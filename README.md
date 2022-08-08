@@ -29,14 +29,13 @@ TODO:
 3. Implement N-dimensional convolution with Bessel kernel. DONE
 4. Test. DONE
 5. Implement Laplacian-of-Gaussians method.
-   1. Make a blob-class.
-   2. Make a scale-space representation function.
-   3. Make a normalized Laplacian function.
+   1. Make a blob-class. DONE
+   2. Make a scale-space representation function. DONE
+   3. Make a normalized Laplacian function. DONE.
    4. Make LoG.
 6. Optimize code (minimize copying).
-7. Implement all the other methods in Lindeber's 2013 paper.
-8. Remove dependency on OpenCV (i.e. implement convolution). 
-9. Implement affine blob detection.
+7. Implement affine blob detection.
+8. Implement all the other methods in Lindeberg's 2013 paper.
 10. Implement a Python interface using pybind11.
 
 Possible future features:

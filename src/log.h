@@ -51,18 +51,18 @@ BlobList log(const Mat& input, const vector<double>& sigma1, const vector<double
          cerr << "sigma1 and sigma2 must have same size." << endl;
      }
      // Create scale-space representation of the input image.
-     Mat ssr = scaleSpaceRepresentation(input, sigma1, sigma2);
+     vector<Mat> ssr = scaleSpaceRepresentation(input, sigma1, sigma2);
      // Evaluate scale-normalized Laplacian.
-     Mat snl = scaleNormalizedLaplacian(ssr, sigma1, sigma2);
+     //Mat snl = scaleNormalizedLaplacian(ssr, sigma1, sigma2);
      // Determine local minima of the scale-normalized Laplacian in scale-space.
      // Convert local minima to GaussianBlob-instances.
-     BlobList blobList = snlToBlobs(snl, sigma1, sigma2);
+     //BlobList blobList = snlToBlobs(snl, sigma1, sigma2);
      // Remove the ones that are below the relative threshold.
-     removeBelowThreshold(blobList, rthresh);
+     //removeBelowThreshold(blobList, rthresh);
      // Remove overlap.
-     removeOverlap(blobList, maxOverlap);
+     //removeOverlap(blobList, maxOverlap);
      // Perform sanity checks and return.
-     return blobList;
+     // return blobList;
 }
 
 
