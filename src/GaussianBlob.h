@@ -5,6 +5,7 @@
 #ifndef BLOBS_CPP_GAUSSIANBLOB_H
 #define BLOBS_CPP_GAUSSIANBLOB_H
 
+
 class GaussianBlob
 {
     /**

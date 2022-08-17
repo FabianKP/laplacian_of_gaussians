@@ -53,8 +53,10 @@ BlobList log(const Mat& input, const vector<double>& sigma1, const vector<double
      // Create scale-space representation of the input image.
      vector<Mat> ssr = scaleSpaceRepresentation(input, sigma1, sigma2);
      // Evaluate scale-normalized Laplacian.
+     vector<Mat> snl = scaleNormalizedLaplacian(ssr, sigma1, sigma2);
      //Mat snl = scaleNormalizedLaplacian(ssr, sigma1, sigma2);
      // Determine local minima of the scale-normalized Laplacian in scale-space.
+
      // Convert local minima to GaussianBlob-instances.
      //BlobList blobList = snlToBlobs(snl, sigma1, sigma2);
      // Remove the ones that are below the relative threshold.

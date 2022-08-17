@@ -32,14 +32,19 @@ TODO:
    1. Make a blob-class. DONE
    2. Make a scale-space representation function. DONE
    3. Make a normalized Laplacian function. DONE.
-   4. Make LoG.
-6. Optimize code (minimize copying).
-7. Implement affine blob detection.
-8. Implement all the other methods in Lindeberg's 2013 paper.
-10. Implement a Python interface using pybind11.
+   4. Implement LoG.
+      1. Implement a method for finding strict local maxima/minima in 3d.
+      2. Implement and test LoG.
+6. Implement a Python interface using pybind11.
+7. Compare with existing Python implementation.
+8. Optimize code (minimize copying).
+9. Implement affine-invariant blob detection.
+
+Optional improvements:
+---
+- Handcode kernel for Laplacian (current implementation is based on Sobel operator).
 
 Possible future features:
 -------------------------
 
-- An implementation of the determinant-of-Hessians method.
-- Affine-invariant blob detection.
+- Implement the other methods in Lindeberg's 2013 paper.

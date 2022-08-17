@@ -11,6 +11,8 @@
 #include "src/gaussian_filter.h"
 #include "src/GaussianBlob.h"
 #include "src/log.h"
+#include "src/localMinMax.h"
+#include "src/stackToMatrix.h"
 
 void hello();
 

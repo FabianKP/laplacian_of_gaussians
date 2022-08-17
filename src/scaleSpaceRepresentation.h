@@ -25,20 +25,20 @@ vector<Mat> scaleSpaceRepresentation(const Mat& image, const vector<double>& sig
      // Check input for consistency. The image must be 2-dimensional and grayscale.
      assert(image.dims == 2 && image.channels() == 1);
      // sigma1 and sigma2 must have the same length.
-    assert(sigma1.size() == sigma2.size());
-    int k = sigma1.size();
-    int n1 = image.rows;
-    int n2 = image.cols;
-    int ssrShape[3] = {k, n1, n2};
-    // Initialize scale-space representation as vector of matrices.
-    vector<Mat> ssr(k);
+     assert(sigma1.size() == sigma2.size());
+     int k = sigma1.size();
+     int n1 = image.rows;
+     int n2 = image.cols;
+     int ssrShape[3] = {k, n1, n2};
+     // Initialize scale-space representation as vector of matrices.
+     vector<Mat> ssr(k);
      // Compute scale-space representation by filtering the image multiple times.
      // The results are written into 'ssr' in a plane-by-plane fashion.
      for (int i=0; i<k; i++) {
-         Mat filteredImage = gaussianFilter2d(image, sigma1[i], sigma2[i]);
-         assert(filteredImage.rows == n1 && filteredImage.cols == n2);
-         ssr[i] = filteredImage;
-         assert(ssr[i].rows == n1 && ssr[i].cols == n2);
+          Mat filteredImage = gaussianFilter2d(image, sigma1[i], sigma2[i]);
+          assert(filteredImage.rows == n1 && filteredImage.cols == n2);
+          ssr[i] = filteredImage;
+          assert(ssr[i].rows == n1 && ssr[i].cols == n2);
      }
      return ssr;
 }
@@ -59,7 +59,7 @@ Mat weightedLaplacian(const Mat& image, const double t1, const double t2){
 }
 
 
-vector<Mat> scaleNormalizedLaplacian(const vector<Mat>& ssr, const vector<double>& sigma1, vector<double>& sigma2){
+vector<Mat> scaleNormalizedLaplacian(const vector<Mat>& ssr, const vector<double>& sigma1, const vector<double>& sigma2){
     /**
      @brief Evaluates the scale-normalized Laplacian of a given scale-space representation.
      @param[ssr] The scale-space representation. Of shape (k, m, n), where k is the number of scales.
