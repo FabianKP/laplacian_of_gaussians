@@ -11,15 +11,13 @@ as the *discrete Gaussian kernel*, is based on modified Bessel functions
 - It allows for the use of anisotropic convolution kernels. That is, it allows for convolution kernels that are
 not symmetric in all directions.
 
-This library provides efficient two C++ functions:
+This library provides two efficient C++ functions:
 - ``discreteGaussian``: Convolves an n-dimensional array with a discrete Gaussian kernel.
 - ``laplacianOfGaussians``: Performs blob detection on an n-dimensional array (representing a time-series, image, video, ...)
   with the Laplacian-of-Gaussians method, using the discrete Gaussian kernel for the scale-space representation.
 
 
 For a mathematical description of the method and its background, see [here]().
-
-A Python interface for this library is planned for the future.
 
 TODO:
 -----
@@ -33,12 +31,15 @@ TODO:
    2. Make a scale-space representation function. DONE
    3. Make a normalized Laplacian function. DONE.
    4. Implement LoG.
-      1. Implement a method for finding strict local maxima/minima in 3d.
-      2. Implement and test LoG.
-6. Implement a Python interface using pybind11.
-7. Compare with existing Python implementation.
-8. Optimize code (minimize copying).
-9. Implement affine-invariant blob detection.
+      1. Implement a method for finding strict local maxima/minima in 3d. DONE.
+      2. Implement a method for intersection detection. DONE.
+      3. Combine into LoG.
+6. Optimize code (minimize copying).
+
+Issues:
+---
+Currently, there is the small issue that OpenCV SUCKS!!! Dilation and erosion seem to not
+work for 3D-arrays. So, I guess I will have to find a different library to do all the 3D-things.
 
 Optional improvements:
 ---

@@ -17,48 +17,46 @@ class GaussianBlob
      */
 public:
     // GaussianBlob has no default constructor.
-    GaussianBlob(double x1, double x2, double sigma1, double sigma2, double angle){
+    GaussianBlob(int x1, int x2, double sigma, uchar log_value){
         /**
         * Constructor.
         */
         _x1 = x1;
         _x2 = x2;
-        _sigma1 = sigma1;
-        _sigma2 = sigma2;
-        _angle = angle;
+        _sigma = sigma;
+        _log_value = log_value;
     }
 
-    double get_sigma1(){
-        return _sigma1;
+    double get_sigma() const{
+        return _sigma;
     }
 
-    double get_sigma2(){
-        return _sigma2;
-    }
 
-    double get_x1(){
+    int get_x1() const{
         return _x1;
     }
 
-    double get_x2(){
+    int get_x2() const{
         return _x2;
     }
 
-    double get_angle(){
-        return _angle;
+    double radius() const{
+        return sqrt(2) * _sigma;
     }
 
-    double get_log_value(){
+    [[nodiscard]] uchar get_log_value() const{
         return _log_value;
     }
 
+    bool operator <(const GaussianBlob &b) const{
+        return (_log_value < b.get_log_value());
+    }
+
 private:
-    double _x1;         // Vertical location.
-    double _x2;         // Horizontal location.
-    double _sigma1;     // Vertical standard deviation.
-    double _sigma2;     // Horizontal standard deviation.
-    double _angle;      // Angle.
-    double _log_value;  // The value of the scale-normalized Laplacian at that blob.
+    int _x1;         // Vertical location.
+    int _x2;         // Horizontal location.
+    double _sigma;     // Standard deviation.
+    uchar _log_value;  // The value of the scale-normalized Laplacian at that blob.
                         // This can be seen as measure for the strength of the blob in the image.
 };
 

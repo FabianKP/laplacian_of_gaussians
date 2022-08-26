@@ -22,7 +22,7 @@ Mat stackToMatrix(const vector<Mat>& stack){
      int m0 = stack[0].rows;
      int n0 = stack[0].cols;
      auto type0 = stack[0].type();
-     for (auto slice : stack){
+     for (const auto& slice : stack){
          assert(slice.dims == 2 && slice.rows == m0 && slice.cols == n0 && slice.type() == type0);
      }
      // Initialize 3d-matrix.
@@ -37,23 +37,26 @@ Mat stackToMatrix(const vector<Mat>& stack){
 }
 
 
-vector<Mat> matrixToStack(const Mat& matrix){
+vector<Mat> matrixToStack(const Mat& input){
     /**
      * Opposite of stackToMatrix
      */
     // First, check that dimensions match.
-    assert(matrix.dims == 3);
+    assert(input.dims == 3);
     // Get first dimension of matrix.
-    int k = matrix.size[0];
+    int k = input.size[0];
+    int m = input.size[1];
+    int n = input.size[2];
     // Initialize vector of matrices.
     vector<Mat> stack;
     // Fill it slice-by-slice.
-    for (int i=0; i<k; i++){
-        Range sliceIndices[3] = {Range(i, i+1), Range::all(), Range::all()};
-        stack.push_back(matrix(sliceIndices));
+    for (int i=0; i < k; i++){
+        Range ranges[3] = {Range(i, i+1), Range::all(), Range::all()};
+        Mat slice_i(m, n, input.type(), input(ranges).data);
+        stack.push_back(slice_i);
     }
     // Check that stack consists of 2D matrices.
-    for (auto mat : stack){
+    for (const auto& mat : stack){
         assert(mat.dims == 2);
     }
     return stack;

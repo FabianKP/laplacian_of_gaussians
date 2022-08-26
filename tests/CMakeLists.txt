@@ -17,8 +17,17 @@ target_link_libraries(test_scale_space_representation ${OpenCV_LIBS})
 add_executable(test_log testlog.cpp)
 target_link_libraries(test_log ${OpenCV_LIBS})
 
-add_executable(test_morph testMorph.cpp)
-target_link_libraries(test_morph ${OpenCV_LIBS})
+add_executable(test_dilate3d testDilate3D.cpp)
+target_link_libraries(test_dilate3d ${OpenCV_LIBS})
+
+add_executable(test_local_min_max testLocalMinMax.cpp)
+target_link_libraries(test_local_min_max ${OpenCV_LIBS})
+
+add_executable(test_strict_local_max3d testStrictLocalMaximizer3D.cpp)
+target_link_libraries(test_strict_local_max3d ${OpenCV_LIBS})
+
+add_executable(test_check_overlap testCheckOverlap.cpp)
+target_link_libraries(test_check_overlap ${OpenCV_LIBS})
 
 # Copy test image to current output directoy.
 file(COPY "test_image.png" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
