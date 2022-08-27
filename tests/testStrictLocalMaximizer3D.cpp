@@ -16,18 +16,14 @@ TEST_CASE("Mat-stack to 3d vector", ""){
     ifile.open(imageFile);
     REQUIRE(ifile);
     Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
-    test_image.convertTo(test_image, CV_8UC1);
+    test_image.convertTo(test_image, CV_32FC1);
+    normalize(test_image, test_image, 0, 1, NORM_MINMAX);
     // In front and after, stack the same image, but of half intensity.
     vector<Mat> test_stack;
     test_stack.push_back(0.5 * test_image);
     test_stack.push_back(test_image);
     test_stack.push_back(0.5 * test_image);
-    String imageName = "Local maximizers";
-    namedWindow(imageName, WINDOW_NORMAL);
-    imshow(imageName, test_image);
-    waitKey(0);
-    destroyWindow(imageName);
-    vector<vector<vector<uchar>>> array = matToArray3D(test_stack);
+    vector<vector<vector<float>>> array = matToArray3D(test_stack);
     for (auto mat : array){
         for (auto row : mat){
             for (auto val : row){
@@ -50,7 +46,8 @@ TEST_CASE("Finding strict local maximizers", ""){
     ifile.open(imageFile);
     REQUIRE(ifile);
     Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
-    test_image.convertTo(test_image, CV_8U);
+    test_image.convertTo(test_image, CV_32FC1);
+    normalize(test_image, test_image, 0, 1, NORM_MINMAX);
     // In front and after, stack the same image, but of half intensity.
     vector<Mat> test_stack;
     test_stack.push_back(0.5 * test_image);
@@ -60,7 +57,7 @@ TEST_CASE("Finding strict local maximizers", ""){
     vector<CriticalPoint> localMaximizers = strictLocalMaximizer3D(test_stack);
     // Visualize by creating an image where the local maximizers are marked.
     for (auto pt: localMaximizers){
-        test_image.at<uchar>(pt.i, pt.j) = 255;
+        test_image.at<float>(pt.i, pt.j) = 1.;
     }
     // Show the image.
     String imageName = "Local maximizers";
@@ -79,18 +76,18 @@ TEST_CASE("Finding strict local minimizers", ""){
     ifile.open(imageFile);
     REQUIRE(ifile);
     Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
-    test_image.convertTo(test_image, CV_8U);
-    test_image = 255 - test_image;
+    test_image.convertTo(test_image, CV_32FC1);
+    normalize(test_image, test_image, 0, 1, NORM_MINMAX);
     // In front and after, stack the same image, but of half intensity.
     vector<Mat> test_stack;
-    test_stack.push_back(0.5 * test_image);
+    test_stack.push_back(2. * test_image);
     test_stack.push_back(test_image);
-    test_stack.push_back(0.5 * test_image);
+    test_stack.push_back(2. * test_image);
     // Get strict local maximizers.
     vector<CriticalPoint> localMinimizers = strictLocalMinimizer3D(test_stack);
     // Visualize by creating an image where the local maximizers are marked.
     for (auto pt: localMinimizers){
-        test_image.at<uchar>(pt.i, pt.j) = 0;
+        test_image.at<float>(pt.i, pt.j) = 1.;
     }
     // Show the image.
     String imageName = "Local minimizers";

@@ -20,21 +20,22 @@ using BlobList = deque<GaussianBlob>;
 BlobList minimizersToBlobs(const vector<CriticalPoint>& minimizers, const vector<double>& sigma){
     BlobList blobs;
     for (const auto& point : minimizers){
-        GaussianBlob blob(point.i, point.j, sigma[point.k],-point.val);
+        GaussianBlob blob(point.i, point.j, sigma[point.k],abs(point.val));
         blobs.push_back(blob);
     }
+    return blobs;
 }
 
 
 void removeBelowThreshold(BlobList& blobs, double rthresh){
     // Removes all that are too weak, where weakness is defined via its log-value.
     // First, determine the maximum log_value. Since the blobs are sorted, this is the log_value of the first element.
-    const uchar max_log = blobs[0].get_log_value();
+    const float max_log = blobs[0].get_log_value();
     // Remove all blobs with log-value less than rthresh * max_log.
     blobs.erase(remove_if(
             blobs.begin(), blobs.end(),
             [rthresh, max_log](const GaussianBlob& blob){
-                return blob.get_log_value() >= rthresh * max_log;
+                return double(blob.get_log_value()) < rthresh * double(max_log);
             }), blobs.end());
 }
 
@@ -63,10 +64,10 @@ void removeOverlap(BlobList& blobs, const double maxOverlap){
 }
 
 
-BlobList log(const Mat& input, const vector<double>& sigma, const double rthresh=0.01,
-                       double maxOverlap=0.5){
+BlobList LoGBright(const Mat& input, const vector<double>& sigma, const double rthresh=0.01,
+                   double maxOverlap=0.5){
     /**
-     @brief Performs blob detection using the Laplacian-of-Gaussians method.
+     @brief Performs blob detection using the Laplacian-of-Gaussians method. Only detects bright (high-intensity) blobs.
      @param[input] The input image. Must be 2-dimensional.
      @param[sigma] The vector of standard deviations.
      @param[rthresh] Relative threshold for detection. Must be between 0 and 1.
@@ -76,28 +77,46 @@ BlobList log(const Mat& input, const vector<double>& sigma, const double rthresh
         this, then the weaker one is removed.
     @return A list of the GaussianBlob objects, each corresponding to an identified blob.
      */
-     // Check input for consistency.
-     int indims = input.dims;
-     if (indims != 2){
-         cerr << "Atm, LoG only works on 2-dimensional images." << endl;
-     }
-     // Create scale-space representation of the input image.
-     vector<Mat> ssr = scaleSpaceRepresentation(input, sigma, sigma);
-     // Evaluate scale-normalized Laplacian.
-     vector<Mat> snl = scaleNormalizedLaplacian(ssr, sigma, sigma);
-     //Mat snl = scaleNormalizedLaplacian(ssr, sigma1, sigma2);
-     // Determine local minima of the scale-normalized Laplacian in scale-space.
-     vector<CriticalPoint> scaleSpaceMinimizers = strictLocalMinimizer3D(snl);
-     // Convert local minima to GaussianBlob-instances.
-     BlobList blobs = minimizersToBlobs(scaleSpaceMinimizers, sigma);
-     // Sort blobs in descending order according to their strength (this is useful for the next steps).
-     sort(blobs.begin(), blobs.end());  // Possible, since we have overloaded "<"-operator.
-     reverse(blobs.begin(), blobs.end());
-     // Remove the blobs below the relative threshold.
-     removeBelowThreshold(blobs, rthresh);
-     // Remove overlap.
-     removeOverlap(blobs, maxOverlap);
-     return blobs;
+    // Check input for consistency.
+    int indims = input.dims;
+    if (indims != 2){
+        cerr << "Atm, LoG only works on 2-dimensional images." << endl;
+    }
+    // Since LoG currently only works for float-images, have to convert input.
+    Mat image;
+    input.convertTo(image, CV_32FC1);
+    normalize(image, image, 0, 1, cv::NORM_MINMAX);
+    // Create scale-space representation of the input image.
+    vector<Mat> ssr = scaleSpaceRepresentation(image, sigma, sigma);
+    // Evaluate scale-normalized Laplacian.
+    vector<Mat> snl = scaleNormalizedLaplacian(ssr, sigma);
+    //Mat snl = scaleNormalizedLaplacian(ssr, sigma1, sigma2);
+    // Determine local maxima of the scale-normalized Laplacian in scale-space.
+    vector<CriticalPoint> scaleSpaceMinimizers = strictLocalMinimizer3D(snl);
+    // Convert local minima to GaussianBlob-instances.
+    BlobList blobs = minimizersToBlobs(scaleSpaceMinimizers, sigma);
+    // Sort blobs in descending order according to their strength (this is useful for the next steps).
+    sort(blobs.begin(), blobs.end());  // Possible, since we have overloaded "<"-operator.
+    reverse(blobs.begin(), blobs.end());
+    // Remove the blobs below the relative threshold.
+    removeBelowThreshold(blobs, rthresh);
+    // Remove overlap.
+    removeOverlap(blobs, maxOverlap);
+    return blobs;
+}
+
+
+tuple<BlobList, BlobList> LoG(const Mat& input, const vector<double>& sigma, const double rthresh=0.01,
+             double maxOverlap=0.5){
+    /**
+     * Detects both bright and dark blobs.
+     */
+     // First, detect bright blobs.
+     BlobList brightBlobs = LoGBright(input, sigma, rthresh, maxOverlap);
+     // Detect dark blobs by detecting blobs in the negative image.
+     BlobList darkBlobs = LoGBright(-input, sigma, rthresh);
+     // Return both list of bright blobs and dark blobs.
+     return make_tuple(brightBlobs, darkBlobs);
 }
 
 

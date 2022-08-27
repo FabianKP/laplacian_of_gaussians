@@ -26,20 +26,21 @@ TODO:
 2. Install opencv and test your installation (plot something). DONE
 3. Implement N-dimensional convolution with Bessel kernel. DONE
 4. Test. DONE
-5. Implement Laplacian-of-Gaussians method.
+5. Implement Laplacian-of-Gaussians method. DONE
    1. Make a blob-class. DONE
    2. Make a scale-space representation function. DONE
    3. Make a normalized Laplacian function. DONE.
-   4. Implement LoG.
+   4. Implement LoG. DONE
       1. Implement a method for finding strict local maxima/minima in 3d. DONE.
       2. Implement a method for intersection detection. DONE.
-      3. Combine into LoG.
-6. Optimize code (minimize copying).
-
-Issues:
----
-Currently, there is the small issue that OpenCV SUCKS!!! Dilation and erosion seem to not
-work for 3D-arrays. So, I guess I will have to find a different library to do all the 3D-things.
+      3. Combine into LoG for finding bright blobs. DONE
+      4. Extend so that LoG identifies both bright and dark blobs. DONE
+6. Implement paintBlobs-function.
+   1. Implement and test. DONE
+   2. Solve the color problem (when you give paintBlobs a grayscale image).
+7. Refactor code.
+   1. Make LoG saver. If you give it a non-grayscale image, it should raise an error or convert.
+8. Find more convincing examples (LoG performs bad on almonds-image.)
 
 Optional improvements:
 ---
@@ -49,3 +50,4 @@ Possible future features:
 -------------------------
 
 - Implement the other methods in Lindeberg's 2013 paper.
+- Shape-adaptation.

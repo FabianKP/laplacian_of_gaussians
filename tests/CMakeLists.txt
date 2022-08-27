@@ -29,5 +29,8 @@ target_link_libraries(test_strict_local_max3d ${OpenCV_LIBS})
 add_executable(test_check_overlap testCheckOverlap.cpp)
 target_link_libraries(test_check_overlap ${OpenCV_LIBS})
 
+add_executable(test_paint_blobs testPaintBlobs.cpp)
+target_link_libraries(test_paint_blobs ${OpenCV_LIBS})
+
 # Copy test image to current output directoy.
 file(COPY "test_image.png" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

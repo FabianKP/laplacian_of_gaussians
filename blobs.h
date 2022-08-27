@@ -13,6 +13,7 @@
 #include "src/log.h"
 #include "src/localMinMax.h"
 #include "src/stackToMatrix.h"
+#include "src/paintBlobs.h"
 
 void hello();
 

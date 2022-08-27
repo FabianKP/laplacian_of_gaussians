@@ -13,13 +13,13 @@ using namespace cv;
 
 struct CriticalPoint{
     int k;
-    int j;
     int i;
-    uchar val;
+    int j;
+    float val;
 };
 
 
-vector<vector<vector<uchar>>> matToArray3D(const vector<Mat>& input){
+vector<vector<vector<float>>> matToArray3D(const vector<Mat>& input){
     /**
      * Given a 3D opencv mat, returns a 3D C++ array.
      */
@@ -28,16 +28,16 @@ vector<vector<vector<uchar>>> matToArray3D(const vector<Mat>& input){
     int m = input[0].rows;
     int n = input[0].cols;
     // Initialize 3D-vector
-    vector<vector<vector<uchar>>> mat3d;
+    vector<vector<vector<float>>> mat3d;
     mat3d.reserve(l);
     for (int k=0; k<l; k++ ) {
-        vector<vector<uchar>> matk;
+        vector<vector<float>> matk;
         matk.reserve(m);
         for (int i = 0; i < m; ++i) {
-            vector<uchar> rowki;
+            vector<float> rowki;
             rowki.reserve(n);
-            rowki.insert(rowki.end(), input[k].ptr<uchar>(i),
-                    input[k].ptr<uchar>(i) + n);
+            rowki.insert(rowki.end(), input[k].ptr<float>(i),
+                    input[k].ptr<float>(i) + n);
             matk.push_back(rowki);
         }
         mat3d.push_back(matk);
@@ -46,13 +46,13 @@ vector<vector<vector<uchar>>> matToArray3D(const vector<Mat>& input){
 }
 
 
-uchar getMaxOfNeighbours(const vector<vector<vector<uchar>>>& input, int k, int i, int j){
+float getMaxOfNeighbours(const vector<vector<vector<float>>>& input, int k, int i, int j){
     /**
      * Computes the maximum intensity of all neighbours of a given pixel.
      */
      // Fill vector with neighbour intensities.
      // We know that there will not be more than 28 neighbours.
-     uchar neighbourIntensities[28] = {0};
+     float neighbourIntensities[28] {0};
      int counter = 0;
      int L = input.size();
      for (int k2 = max(k-1, 0); k2 <= min(k+1, L-1); k2++){
@@ -68,12 +68,12 @@ uchar getMaxOfNeighbours(const vector<vector<vector<uchar>>>& input, int k, int 
          }
      }
      // Get maximum
-    uchar maxIntensity = *max_element(begin(neighbourIntensities), end(neighbourIntensities));
+    float maxIntensity = *max_element(begin(neighbourIntensities), end(neighbourIntensities));
     return maxIntensity;
 }
 
 
-vector<CriticalPoint> strictLocalMaximizer3D(const vector<vector<vector<uchar>>>& input){
+vector<CriticalPoint> strictLocalMaximizer3D(const vector<vector<vector<float>>>& input){
     /**
      * Finds strict local maximizers of given 3D-image.
      */
@@ -87,8 +87,8 @@ vector<CriticalPoint> strictLocalMaximizer3D(const vector<vector<vector<uchar>>>
          for (int i=0; i<M; i++){
              int N = input[k][i].size();
              for (int j=0; j<N; j++){
-                 uchar value = input[k][i][j];
-                 uchar neighbourMax = getMaxOfNeighbours(input, k, i, j);
+                 float value = input[k][i][j];
+                 float neighbourMax = getMaxOfNeighbours(input, k, i, j);
                  if (value > neighbourMax) {
                      localMaximizers.push_back(CriticalPoint{k, i, j, value});
                  }
@@ -106,9 +106,10 @@ vector<CriticalPoint> strictLocalMaximizer3D(const vector<Mat>& input){
      // First, convert input into 3D-array.
      int L = input.size();
      assert(L > 0);
-     vector<vector<vector<uchar>>> input3d = matToArray3D(input);
+     vector<vector<vector<float>>> input3d = matToArray3D(input);
      return strictLocalMaximizer3D(input3d);
 }
+
 
 vector<CriticalPoint> strictLocalMinimizer3D(const vector<Mat> input){
     int L = input.size();
@@ -116,10 +117,15 @@ vector<CriticalPoint> strictLocalMinimizer3D(const vector<Mat> input){
     // Negate every array.
     vector<Mat> neg_input;
     for (const auto& mat : input){
-        neg_input.push_back(255-mat);
+        neg_input.push_back(-mat);
     }
-    vector<vector<vector<uchar>>> input3d = matToArray3D(neg_input);
-    return strictLocalMaximizer3D(input3d);
+    vector<vector<vector<float>>> input3d = matToArray3D(neg_input);
+    vector<CriticalPoint> minimizer = strictLocalMaximizer3D(input3d);
+    // Have to change values so that everything is correct.
+    for (auto& crit : minimizer){
+        crit.val = -crit.val;
+    }
+    return minimizer;
 }
 
 #endif //BLOBS_CPP_STRICTLOCALMAXIMIZER3D_H

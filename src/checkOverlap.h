@@ -15,7 +15,6 @@ double computeRelativeOverlap(const GaussianBlob& blob1, const GaussianBlob& blo
     /**
      * Computes relative overlap of two blobs.
      * The relative overlap is defined as the area of the intersection, divided by the area of the smaller blob.
-     * We assume that the first blob is at least as large as the second one.
      */
     double relativeOverlap;
     // Compute area of intersection
@@ -26,8 +25,8 @@ double computeRelativeOverlap(const GaussianBlob& blob1, const GaussianBlob& blo
     int dist2 = blob1.get_x2() - blob2.get_x2();
     double d = sqrt(double(dist1 * dist1 + dist2 * dist2));
     // Get radii.
-    double r1 = blob1.radius();
-    double r2 = blob2.radius();
+    double r1 = max(blob1.radius(), blob2.radius());
+    double r2 = min(blob1.radius(), blob2.radius());
     // Compute area of smaller blob;
     double areaOfSmaller = M_PI * r2 * r2;
     // If d >= r1 + r2, the intersection area is 0.
@@ -57,7 +56,7 @@ bool checkOverlap(const GaussianBlob& blob1, const GaussianBlob& blob2, double m
      */
     // Next, compute the relative overlap.
     double relativeOverlap = computeRelativeOverlap(blob1, blob2);
-    // If the relative overlap is above maxOverlap, remove the blob from the list.
+    // If the relative overlap is above maxOverlap, return True.
     return (relativeOverlap > maxOverlap);
 }
 
