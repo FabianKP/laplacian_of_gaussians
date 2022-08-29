@@ -13,10 +13,13 @@ using namespace cv;
 using namespace std;
 
 
+/**
+ * Convers a stack of two-dimensional matrices into a 3-dimensional cv::Mat.
+ *
+ * @param stack A vector of two-dimensional matrices.
+ * @return A 3-dimensional matrices, with the i-th slice identical to stack[i].
+ */
 Mat stackToMatrix(const vector<Mat>& stack){
-    /**
-     * Converts a stack of two-dimensional matrices into a 3-dimensional matrix.
-     */
      // First, check that dimensions match.
      int k = stack.size();
      int m0 = stack[0].rows;
@@ -37,10 +40,13 @@ Mat stackToMatrix(const vector<Mat>& stack){
 }
 
 
+/**
+ * Opposite of stackToMatrix. Converts a 3-dimensional cv::Mat into a vector of 2-dimensional cv::Mat-objects.
+ *
+ * @param input Must be a 3-dimensional cv::Mat-object.
+ * @return A vector of matrices obtained by slicing the input along the first axis.
+ */
 vector<Mat> matrixToStack(const Mat& input){
-    /**
-     * Opposite of stackToMatrix
-     */
     // First, check that dimensions match.
     assert(input.dims == 3);
     // Get first dimension of matrix.

@@ -14,21 +14,31 @@ using namespace cv;
 using namespace std;
 
 
-
+/**
+ * Draws a circle corresponding to a given blob in a given image. This is done inplace.
+ *
+ * @param blobs A GaussianBlob-object.
+ * @param image The given image on which a circle shall be drawn.
+ * @param color The color-code for the circle border. For example, color = Scalar(255, 0, 0) yields a blue circle.
+ */
 void addCircle(const BlobList& blobs, Mat& image, const Scalar& color){
     for (const auto& blob : blobs){
-        Point center(blob.get_x2(), blob.get_x1());
-        double radius = blob.radius();
+        Point center(blob.getX2(), blob.getX1());
+        double radius = blob.getRadius();
         int thickness = 1;
         circle(image, center, radius, color, thickness);
     }
 }
 
 
-void paintBlobs(const Mat& image, const tuple<BlobList, BlobList >& blobs){
-    /**
-     * Visualizes the given blobs as circles in the image.
-     */
+/**
+ * Visualizes a list of blobs by drawing them as circles on a given image. This is done inplace.
+ *
+ * @param image The image on which the blobs shall be drawn. Must be 2-dimensional.
+ * @param brightBlobs A list of detected high-intensity blobs.
+ * @param darkBlobs A list of detected low-intensity blobs.
+ */
+void paintBlobs(Mat& image, const BlobList& brightBlobs = BlobList(), const BlobList& darkBlobs = BlobList()){
      // Make sure that the image has right format and scale.
     Mat convertedImage;
     image.convertTo(convertedImage, CV_32FC1);
@@ -36,8 +46,6 @@ void paintBlobs(const Mat& image, const tuple<BlobList, BlobList >& blobs){
      // Convert image to color.
     cvtColor(convertedImage, convertedImage, COLOR_GRAY2BGR);
      // For each blob, draw circle.
-     BlobList brightBlobs = get<0>(blobs);
-     BlobList darkBlobs = get<1>(blobs);
      // Bright blobs are visualized with green circles.
      Scalar green(0, 255, 0);
      addCircle(brightBlobs, convertedImage, green);

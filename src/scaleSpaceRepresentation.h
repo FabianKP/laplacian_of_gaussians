@@ -14,14 +14,16 @@ using namespace cv;
 using namespace std;
 
 
+/**
+ * Given an image and a list of scales, creates the Gaussian scale-space representation.
+ *
+ * @param image The input image. Must be 2-dimensional. The image is converted to grayscale, so any color-information
+ *  is ignored.
+ * @param sigma1 The list of vertical standard deviations.
+ * @param sigma2 The list of horizontal standard deviations.
+ * @return Returns the 3-dimensional scale-space representation.
+ */
 vector<Mat> scaleSpaceRepresentation(const Mat& image, const vector<double>& sigma1, const vector<double>& sigma2){
-    /**
-     @brief Given an image and a list of scales, creates the Gaussian scale-space representation.
-     @param[image] The input image. Must be 2-dimensional and grayscale.
-     @param[sigma1] The list of vertical standard deviations.
-     @param[sigma2] The list of horizontal standard deviations.
-     @return Returns the 3-dimensional scale-space representation.
-     */
      // Check input for consistency. The image must be 2-dimensional and grayscale.
      assert(image.depth()==CV_32FC1);
      assert(image.dims == 2 && image.channels() == 1);
@@ -30,7 +32,6 @@ vector<Mat> scaleSpaceRepresentation(const Mat& image, const vector<double>& sig
      int k = sigma1.size();
      int n1 = image.rows;
      int n2 = image.cols;
-     int ssrShape[3] = {k, n1, n2};
      // Initialize scale-space representation as vector of matrices.
      vector<Mat> ssr(k);
      // Compute scale-space representation by filtering the image multiple times.
@@ -45,10 +46,14 @@ vector<Mat> scaleSpaceRepresentation(const Mat& image, const vector<double>& sig
 }
 
 
+/**
+ * Evaluates weighted Laplacian for a given image.
+ *
+ * @param image The input image.
+ * @param t The scale-parameter.
+ * @return Returns an image of the same shape as the input-image, containing the result of t * Laplacian(image).
+ */
 Mat weightedLaplacian(const Mat& image, const double t){
-    /**
-     @brief Evaluates the weighted Laplacian of a given image.
-     */
     // First compute derivative in x-direction.
     Mat outImage;
     Laplacian(image, outImage, -1, 1, 1);
@@ -57,14 +62,15 @@ Mat weightedLaplacian(const Mat& image, const double t){
 }
 
 
+/**
+ * Evaluates the scale-normalized Laplacian of a 3-dimensional array scale-space object.
+ *
+ * @param ssr The scale-space object. Should be a vector of equally-shaped 2-dimensional images.
+ * @param sigma The standard deviations corresponding to the scale-axis. Must be of the same length as ssr.
+ * @return Returns a 3-dimensional scale-space object of the same format as ssr. This is the result of applying the
+ *  3-dimensional scale-normalized Laplacian to ssr.
+ */
 vector<Mat> scaleNormalizedLaplacian(const vector<Mat>& ssr, const vector<double>& sigma){
-    /**
-     @brief Evaluates the scale-normalized Laplacian of a given scale-space representation.
-     @param[ssr] The scale-space representation. Of shape (k, m, n), where k is the number of scales.
-     @param[sigma1] The vertical standard deviations corresponding to the scale-space representation. Must have length k.
-     @param[sigma2] The horizontal standard deviations corrresponding to the scale-space representation. Must have length k.
-     @returns The scale-normalized Laplacian, i.e. a 3D-array of shape (k, m, n).
-     */
     assert(ssr[0].depth()==CV_32FC1);
      // Initialize t1, t2-variable.
      double t;

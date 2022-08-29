@@ -6,58 +6,78 @@
 #define BLOBS_CPP_GAUSSIANBLOB_H
 
 
+/**
+    * @class Represents a Gaussian scale-space blob.
+    * A Gaussian scale-space blob is defined via 4 numbers:
+    *  - 2 numbers for its location in 2d.
+    *  - 1 number for its standard deviation (square-root of the scale).
+    *  - 1 number for its "strength", i.e. the value of the scale-normalized Laplacian at the blob.
+    */
 class GaussianBlob
 {
-    /**
-     * This class represents a Gaussian scale-space blob.
-     * A Gaussian scale-space blob is defined via 5 numbers:
-     *  - 2 numbers for its location in 2d.
-     *  - 2 numbers for its vertical/horizontal scale.
-     *  - 1 number in [0, pi/2) for its angle.
-     */
 public:
-    // GaussianBlob has no default constructor.
-    GaussianBlob(int x1, int x2, double sigma, float log_value){
-        /**
-        * Constructor.
-        */
-        _x1 = x1;
-        _x2 = x2;
-        _sigma = sigma;
-        _log_value = log_value;
+    /**
+     * @brief Constructor.
+     * @param x1 Row at which the blob is located.
+     * @param x2 Column at which the blob is located.
+     * @param sigma Standard deviation associated to the blob.
+     * @param log_value The value of the scale-normalized Laplacian associated to the blob.
+     */
+    GaussianBlob(int x1, int x2, double sigma, float strength){
+        m_x1 = x1;
+        m_x2 = x2;
+        m_sigma = sigma;
+        m_strength = strength;
     }
 
-    double get_sigma() const{
-        return _sigma;
+    /**
+     * @brief Returns standard deviation.
+     */
+    [[nodiscard]] double getSigma() const{
+        return m_sigma;
     }
 
-
-    int get_x1() const{
-        return _x1;
+    /**
+     * @brief Returns row of blob.
+     */
+    [[nodiscard]] int getX1() const{
+        return m_x1;
     }
 
-    int get_x2() const{
-        return _x2;
+    /**
+     * @brief Returns column of blob.
+     */
+    [[nodiscard]] int getX2() const{
+        return m_x2;
     }
 
-    double radius() const{
-        return sqrt(2) * _sigma;
+    /**
+     * @brief Returns radius of circle associated to blob (r = sqrt(2) * sigma).
+     */
+    [[nodiscard]] double getRadius() const{
+        return sqrt(2) * m_sigma;
     }
 
-    [[nodiscard]] float get_log_value() const{
-        return _log_value;
+    /**
+     * @brief Returns strength of blob (value of scale-normalized Laplacian).
+     */
+    [[nodiscard]] float getStrength() const{
+        return m_strength;
     }
 
+    /**
+     * @brief Comparison for blobs. A blob is larger if the absolute value of its strength is larger.
+     */
     bool operator <(const GaussianBlob &b) const{
-        return (_log_value < b.get_log_value());
+        return (abs(m_strength) < abs(b.getStrength()));
     }
 
 private:
-    int _x1;         // Vertical location.
-    int _x2;         // Horizontal location.
-    double _sigma;     // Standard deviation.
-    float _log_value;  // The value of the scale-normalized Laplacian at that blob.
-                        // This can be seen as measure for the strength of the blob in the image.
+    int m_x1;         // Vertical location.
+    int m_x2;         // Horizontal location.
+    double m_sigma;     // Standard deviation.
+    float m_strength;  /* The value of the scale-normalized Laplacian at that blob.
+                        * This can be seen as measure for the strength of the blob in the image. */
 };
 
 

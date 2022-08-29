@@ -11,26 +11,31 @@ using namespace std;
 using namespace cv;
 
 
+/**
+ * Represents a critical point of a 3-dimensional array.
+ */
 struct CriticalPoint{
-    int k;
-    int i;
-    int j;
-    float val;
+    ulong k;      // Position along the first axis.
+    ulong i;      // Position along the second axis.
+    ulong j;      // Position along the third axis.
+    float val;  // Value of the array at the position (k, i, j).
 };
 
 
+/**
+ * Converts a vector of 2-dimensional images into a 3-dimensional std-vector.
+ * @param input A vector of equally-shaped 2-dimensional images.
+ * @return A 3-dimensional std-vector of type float.
+ */
 vector<vector<vector<float>>> matToArray3D(const vector<Mat>& input){
-    /**
-     * Given a 3D opencv mat, returns a 3D C++ array.
-     */
      // Convert stack to 3D array, slice-wise.
-    int l = input.size();
+    ulong l = input.size();
     int m = input[0].rows;
     int n = input[0].cols;
     // Initialize 3D-vector
     vector<vector<vector<float>>> mat3d;
     mat3d.reserve(l);
-    for (int k=0; k<l; k++ ) {
+    for (ulong k=0; k<l; k++ ) {
         vector<vector<float>> matk;
         matk.reserve(m);
         for (int i = 0; i < m; ++i) {
@@ -46,7 +51,15 @@ vector<vector<vector<float>>> matToArray3D(const vector<Mat>& input){
 }
 
 
-float getMaxOfNeighbours(const vector<vector<vector<float>>>& input, int k, int i, int j){
+/**
+ * Computes the maximum intensity of all neighbours of a given voxel.
+ *
+ * @param input A 3-dimensional vector.
+ * @param k Scale index.
+ * @param i Row index.
+ * @param j Column index.
+ */
+float getMaxOfNeighbours(const vector<vector<vector<float>>>& input, ulong k, ulong i, ulong j){
     /**
      * Computes the maximum intensity of all neighbours of a given pixel.
      */
@@ -54,12 +67,12 @@ float getMaxOfNeighbours(const vector<vector<vector<float>>>& input, int k, int 
      // We know that there will not be more than 28 neighbours.
      float neighbourIntensities[28] {0};
      int counter = 0;
-     int L = input.size();
-     for (int k2 = max(k-1, 0); k2 <= min(k+1, L-1); k2++){
-         int M = input[k2].size();
-         for(int i2 = max(i-1, 0); i2 <= min(i+1, M-1); i2++){
-             int N = input[k2][i2].size();
-             for(int j2 = max(j-1, 0); j2 <= min(j+1, N-1); j2++){
+     ulong L = input.size();
+     for (auto k2 = max(ulong(k-1), ulong(0)); k2 <= min((ulong)k+1, L-1); k2++){
+         ulong M = input[k2].size();
+         for(ulong i2 = max(ulong(i-1), ulong(0)); i2 <= min(i+1, M-1); i2++){
+             ulong N = input[k2][i2].size();
+             for(ulong j2 = max(ulong(j-1), ulong(0)); j2 <= min(j+1, N-1); j2++){
                  if (k2 != k || i2 != i || j2 != j) {
                      neighbourIntensities[counter] = input[k2][i2][j2];
                  }
@@ -73,20 +86,24 @@ float getMaxOfNeighbours(const vector<vector<vector<float>>>& input, int k, int 
 }
 
 
+/**
+ * Finds all strict local maximizers of a given 3-dimensional vector. That is, it finds all points (k, i, j) such that
+ * the value of the input at all neighbours is strictly less than the value at (k, i, j).
+ *
+ * @param input A 3-dimensional vector.
+ * @return The list of maximizers, as vector of CriticalPoint-objects.
+ */
 vector<CriticalPoint> strictLocalMaximizer3D(const vector<vector<vector<float>>>& input){
-    /**
-     * Finds strict local maximizers of given 3D-image.
-     */
      // Initialize list of local maximizers.
      vector<CriticalPoint> localMaximizers;
      // Iterate over all voxels. Compare each voxel with its 7-28 neighbours. If it is strictly larger then all of them,
      // add its position to localMaximizers.
-     int L = input.size();
-     for (int k=0; k<L; k++){
-         int M = input[k].size();
-         for (int i=0; i<M; i++){
-             int N = input[k][i].size();
-             for (int j=0; j<N; j++){
+     ulong L = input.size();
+     for (ulong k=0; k<L; k++){
+         ulong M = input[k].size();
+         for (ulong i=0; i<M; i++){
+             ulong N = input[k][i].size();
+             for (ulong j=0; j<N; j++){
                  float value = input[k][i][j];
                  float neighbourMax = getMaxOfNeighbours(input, k, i, j);
                  if (value > neighbourMax) {
@@ -99,20 +116,33 @@ vector<CriticalPoint> strictLocalMaximizer3D(const vector<vector<vector<float>>>
 }
 
 
+/**
+ * @overload Finds all strict local maximizers of an image-stack.
+ *
+ * @param input A 3-dimensional vector.
+ * @return The list of maximizers, as vector of CriticalPoint-objects.
+ */
 vector<CriticalPoint> strictLocalMaximizer3D(const vector<Mat>& input){
     /**
      * Finds strict local maximizers by finding strict local maximizers of negative image.
      */
      // First, convert input into 3D-array.
-     int L = input.size();
+     ulong L = input.size();
      assert(L > 0);
      vector<vector<vector<float>>> input3d = matToArray3D(input);
      return strictLocalMaximizer3D(input3d);
 }
 
 
-vector<CriticalPoint> strictLocalMinimizer3D(const vector<Mat> input){
-    int L = input.size();
+/**
+ * Finds all strict local minimizers of a given image-stack, i.e. all points at which the intensity is strictly less
+ * than at all of its neighbors. To this end, the stack is interpreted as a 3-dimensional vector.
+ *
+ * @param input A stack of two-dimensional matrices.
+ * @return The list of maximizers, as vector of CriticalPoint-objects.
+ */
+vector<CriticalPoint> strictLocalMinimizer3D(const vector<Mat>& input){
+    ulong L = input.size();
     assert(L > 0);
     // Negate every array.
     vector<Mat> neg_input;
@@ -127,5 +157,6 @@ vector<CriticalPoint> strictLocalMinimizer3D(const vector<Mat> input){
     }
     return minimizer;
 }
+
 
 #endif //BLOBS_CPP_STRICTLOCALMAXIMIZER3D_H
