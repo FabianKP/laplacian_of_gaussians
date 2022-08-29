@@ -37,10 +37,12 @@ TODO:
       4. Extend so that LoG identifies both bright and dark blobs. DONE
 6. Implement paintBlobs-function.
    1. Implement and test. DONE
-   2. Solve the color problem (when you give paintBlobs a grayscale image).
+   2. Solve the color problem (when you give paintBlobs a grayscale image). DONE
 7. Refactor code.
    1. Make LoG saver. If you give it a non-grayscale image, it should raise an error or convert.
 8. Find more convincing examples (LoG performs bad on almonds-image.)
+9. Create and test library.
+10. Set repository to "public".
 
 Optional improvements:
 ---

@@ -41,20 +41,17 @@ TEST_CASE("Paint blobs of M54 image", ""){
     ifstream ifile;
     ifile.open(imageFile);
     REQUIRE(ifile);
-    Mat test_image = imread( imageFile);
+    Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
     test_image.convertTo(test_image, CV_32FC1);
     // Upscale image
-    resize(test_image, test_image, Size(), 10, 10);
-    Mat neg_image = test_image;
-    cvtColor(neg_image, neg_image, COLOR_BGR2GRAY);
-    normalize(neg_image, neg_image, 0, 1, NORM_MINMAX);
+    resize(test_image, test_image, Size(), 10, 10, INTER_CUBIC);
     // Get scales.
     vector<double> sigmas;
     for (int i=1; i<15; i++){
         sigmas.push_back(10 * i);
     }
     // Apply LoG.
-    tuple<BlobList, BlobList> blobs = LoG(neg_image, sigmas, 0.1, 0.5);
+    tuple<BlobList, BlobList> blobs = LoG(test_image, sigmas, 0.1, 0.5);
     // Now, call paintBlobs-function.
     paintBlobs(test_image, blobs);
 }

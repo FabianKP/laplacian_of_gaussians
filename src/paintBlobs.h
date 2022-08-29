@@ -30,9 +30,11 @@ void paintBlobs(const Mat& image, const tuple<BlobList, BlobList >& blobs){
      * Visualizes the given blobs as circles in the image.
      */
      // Make sure that the image has right format and scale.
-     Mat convertedImage;
-     image.convertTo(convertedImage, CV_32FC1);
-     normalize(convertedImage, convertedImage, 0, 1, NORM_MINMAX);
+    Mat convertedImage;
+    image.convertTo(convertedImage, CV_32FC1);
+    normalize(convertedImage, convertedImage, 0, 1, NORM_MINMAX);
+     // Convert image to color.
+    cvtColor(convertedImage, convertedImage, COLOR_GRAY2BGR);
      // For each blob, draw circle.
      BlobList brightBlobs = get<0>(blobs);
      BlobList darkBlobs = get<1>(blobs);
