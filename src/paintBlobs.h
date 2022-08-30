@@ -32,29 +32,43 @@ void addCircle(const BlobList& blobs, Mat& image, const Scalar& color){
 
 
 /**
- * Visualizes a list of blobs by drawing them as circles on a given image. This is done inplace.
+ * Visualizes blobs by drawing corresponding circles in the given image. This is done inplace.
  *
  * @param image The image on which the blobs shall be drawn. Must be 2-dimensional.
  * @param brightBlobs A list of detected high-intensity blobs.
  * @param darkBlobs A list of detected low-intensity blobs.
  */
 void paintBlobs(Mat& image, const BlobList& brightBlobs = BlobList(), const BlobList& darkBlobs = BlobList()){
-     // Make sure that the image has right format and scale.
+    // Make sure that the image has right format and scale.
     Mat convertedImage;
     image.convertTo(convertedImage, CV_32FC1);
     normalize(convertedImage, convertedImage, 0, 1, NORM_MINMAX);
-     // Convert image to color.
+    // Convert image to color.
     cvtColor(convertedImage, convertedImage, COLOR_GRAY2BGR);
-     // For each blob, draw circle.
-     // Bright blobs are visualized with green circles.
-     Scalar green(0, 255, 0);
-     addCircle(brightBlobs, convertedImage, green);
-     // Dark blobs are visualized with red circles.
-     Scalar red(0, 0, 255);
-     addCircle(darkBlobs, convertedImage, red);
-     namedWindow("Image with blobs", WINDOW_NORMAL);
-     imshow("Image with blobs", convertedImage);
-     waitKey(0);
+    // For each blob, draw circle.
+    // Bright blobs are visualized with green circles.
+    Scalar green(0, 255, 0);
+    addCircle(brightBlobs, convertedImage, green);
+    // Dark blobs are visualized with red circles.
+    Scalar red(0, 0, 255);
+    addCircle(darkBlobs, convertedImage, red);
+    namedWindow("Image with blobs", WINDOW_NORMAL);
+    imshow("Image with blobs", convertedImage);
+    waitKey(0);
+}
+
+
+/**
+ * @overload Of paintBlobs for passing bright and dark blobs as tuple.
+ *
+ * @param image The image on which the blobs shall be drawn. Must be 2-dimensional.
+ * @param blobs The first tuple element corresponds to bright blobs, the second to dark blobs.
+ */
+void paintBlobs(Mat& image, const tuple<BlobList, BlobList>& blobs){
+    // Extract blobs and then call corresponding version of this function.
+    const BlobList& brightBlobs = get<0>(blobs);
+    const BlobList& darkBlobs = get<1>(blobs);
+    paintBlobs(image, brightBlobs, darkBlobs);
 }
 
 

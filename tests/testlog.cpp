@@ -31,9 +31,9 @@ TEST_CASE("LoG applied to M54 galaxy", ""){
 }
 
 
-TEST_CASE("LoG applied to almonds image", ""){
+TEST_CASE("LoG applied to apple image", ""){
     // Load M54 test image.
-    String imageFile = "test_image.png";
+    String imageFile = "apples.png";
     ifstream ifile;
     ifile.open(imageFile);
     REQUIRE(ifile);
@@ -51,4 +51,20 @@ TEST_CASE("LoG applied to almonds image", ""){
     BlobList darkBlobs = get<1>(blobs);
 
     cout << "LoG detected " << brightBlobs.size() << " bright blobs and " << darkBlobs.size() << " dark blobs";
+}
+
+
+TEST_CASE("Calling LoG with a color image raises a runtime error.", ""){
+    String imageFile = "test_image.png";
+    ifstream ifile;
+    ifile.open(imageFile);
+    REQUIRE(ifile);
+    Mat test_image = imread( imageFile, IMREAD_COLOR);
+    // Get scales.
+    vector<double> sigmas;
+    for (int i=1; i<20; i++){
+        sigmas.push_back(5 * i);
+    }
+    // Apply LoG.
+    REQUIRE_THROWS_AS(LoG(test_image, sigmas, 0.1, 0.5), runtime_error);
 }

@@ -83,6 +83,7 @@ void removeOverlap(BlobList& blobs, const double maxOverlap){
 
 /**
  * Performs blob detection using the Laplacian-of-Gaussians method. Only detects bright (high-intensity) blobs.
+ * Only works for grayscale images.
  *
  * @param input The input image. Must be 2-dimensional.
  * @param sigma The vector of standard deviations.
@@ -97,17 +98,19 @@ BlobList LoGBright(const Mat& input, const vector<double>& sigma, const double r
     // Check input for consistency.
     int indims = input.dims;
     if (indims != 2){
-        cerr << "Atm, LoG only works on 2-dimensional images." << endl;
+        throw runtime_error("'input' must be 2-dimensional.");
     }
-    // Since LoG currently only works for float-images, have to convert input.
-    Mat image;
-    input.convertTo(image, CV_32FC1);
-    normalize(image, image, 0, 1, cv::NORM_MINMAX);
+    // Since LoG currently only works for grayscale float-images, have to convert input.
+    Mat image = input.clone();
+    if (image.channels() > 1) {
+        throw runtime_error("'LoG' can only handle grayscale images.");
+    }
+    image.convertTo(image, CV_32FC1);
+    normalize(image, image, 0, 1, NORM_MINMAX);
     // Create scale-space representation of the input image.
     vector<Mat> ssr = scaleSpaceRepresentation(image, sigma, sigma);
     // Evaluate scale-normalized Laplacian.
     vector<Mat> snl = scaleNormalizedLaplacian(ssr, sigma);
-    //Mat snl = scaleNormalizedLaplacian(ssr, sigma1, sigma2);
     // Determine local maxima of the scale-normalized Laplacian in scale-space.
     vector<CriticalPoint> scaleSpaceMinimizers = strictLocalMinimizer3D(snl);
     // Convert local minima to GaussianBlob-instances.

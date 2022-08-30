@@ -16,13 +16,14 @@ TEST_CASE("Scale-space representation of an image", ""){
      Simple test for the function 'scaleSpaceRepresentation'.
      */
     // Set sigma1 and sigma2 vectors.
-    vector<double> sigmaVec = {1., 3., 5., 7., 10};
+    vector<double> sigmaVec = {1., 10., 20., 50., 100};
     int k = sigmaVec.size();
     // Load test image.
+    String location = "apples.png";
     ifstream ifile;
-    ifile.open("test_image.png");
+    ifile.open(location);
     //REQUIRE(ifile);
-    Mat test_image = imread( "test_image.png", IMREAD_GRAYSCALE);
+    Mat test_image = imread( location, IMREAD_GRAYSCALE);
     test_image.convertTo(test_image, CV_32FC1);
     normalize(test_image, test_image, 0, 1, cv::NORM_MINMAX);
     // Compute scale-space representation.
@@ -34,6 +35,7 @@ TEST_CASE("Scale-space representation of an image", ""){
         namedWindow(windowName, WINDOW_NORMAL);
         // Get i-th slice of the scale-space representation (i.e. a blurred image)
         Mat ssr_i = ssr[i];
+        normalize(ssr_i, ssr_i, 0, 1, NORM_MINMAX);
         int sliceRows = ssr_i.rows;
         int sliceCols = ssr_i.cols;
         REQUIRE(sliceRows == test_image.rows);

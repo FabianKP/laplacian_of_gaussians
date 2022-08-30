@@ -26,6 +26,7 @@ using namespace std;
 vector<Mat> scaleSpaceRepresentation(const Mat& image, const vector<double>& sigma1, const vector<double>& sigma2){
      // Check input for consistency. The image must be 2-dimensional and grayscale.
      assert(image.depth()==CV_32FC1);
+     int nChannels = image.channels();
      assert(image.dims == 2 && image.channels() == 1);
      // sigma1 and sigma2 must have the same length.
      assert(sigma1.size() == sigma2.size());
