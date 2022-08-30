@@ -42,7 +42,7 @@ TODO:
    1. Improve comments. DONE
    2. Make LoG safer. If you give it a non-grayscale image, it should raise an error or convert. DONE.
 8. Find more convincing examples. DONE
-9. Create doxygen-documentation and put it somewhere in the repository.
+9. Write a mini-tutorial in the README.
 10. Create and test library.
 11. Set repository to "public".
 

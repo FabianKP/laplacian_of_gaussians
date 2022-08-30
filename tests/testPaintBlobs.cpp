@@ -25,11 +25,11 @@ TEST_CASE("Test painting blobs in Hubble image", ""){
     normalize(testImage, testImage, 0, 1, NORM_MINMAX);
     // Get scales.
     vector<double> sigmas;
-    for (int i=1; i<20; i=i){
+    for (int i=2; i<20; i++){
         sigmas.push_back(i);
     }
     // Apply LoG.
-    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmas, 0.05, 0.5);
+    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmas, 0.02, 0.2);
     BlobList brightBlobs = get<0>(blobs);
     BlobList darkBlobs = get<1>(blobs);
     // Now, call paintBlobs-function.
