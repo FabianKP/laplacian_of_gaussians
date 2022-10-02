@@ -4,8 +4,8 @@
 
 #define CATCH_CONFIG_MAIN
 #include <cmath>
+#include "blobDetection.hpp"
 #include "catch.hpp"
-#include "../src/blobs.hpp"
 
 
 using namespace std;

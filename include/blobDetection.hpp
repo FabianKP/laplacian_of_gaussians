@@ -8,11 +8,11 @@
 #include <opencv2/opencv.hpp>
 
 // Include local header files.
-#include "gaussian_filter.hpp"
-#include "GaussianBlob.hpp"
-#include "log.hpp"
-#include "stackToMatrix.hpp"
-#include "paintBlobs.hpp"
+#include "blobDetection/gaussian_filter.hpp"
+#include "blobDetection/GaussianBlob.hpp"
+#include "blobDetection/log.hpp"
+#include "blobDetection/stackToMatrix.hpp"
+#include "blobDetection/paintBlobs.hpp"
 
 void hello();
 

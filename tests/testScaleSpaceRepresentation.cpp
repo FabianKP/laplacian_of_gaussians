@@ -4,7 +4,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../src/blobs.hpp"
+#include "blobDetection.hpp"
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
 

@@ -4,7 +4,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../src/blobs.hpp"
+#include "blobDetection.hpp"
 #include <cstdlib>
 #include <fstream>
 #include <filesystem>
@@ -16,6 +16,7 @@
 
 using namespace boost;
 using namespace cv;
+using namespace std;
 using std::filesystem::current_path;
 
 

@@ -4,10 +4,12 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../src/blobs.hpp"
+#include <opencv2/opencv.hpp>
+#include "blobDetection.hpp"
 
 
 using namespace std;
+using namespace cv;
 
 
 TEST_CASE("Mat-stack to 3d vector", ""){

@@ -138,14 +138,36 @@ BlobList LoGBright(const Mat& input, const vector<double>& sigma, const double r
  * @return Returns two BlobList-objects. The first list contains the detected bright blobs (i.e. high-intensity blobs),
  *  the second list contains the deteced dark blobs.
  */
-tuple<BlobList, BlobList> LoG(const Mat& input, const vector<double>& sigma, const double rthresh=0.01,
-             double maxOverlap=0.5){
-     // First, detect bright blobs.
-     BlobList brightBlobs = LoGBright(input, sigma, rthresh, maxOverlap);
-     // Detect dark blobs by detecting blobs in the negative image.
-     BlobList darkBlobs = LoGBright(-input, sigma, rthresh);
-     // Return both list of bright blobs and dark blobs.
-     return make_tuple(brightBlobs, darkBlobs);
+tuple<BlobList, BlobList> LoG(const Mat& input, double sigmaMin, double sigmaMax, int numSigma,
+                              const double rthresh=0.01, double maxOverlap=0.5){
+
+    // Check parameters for consistency.
+    if (sigmaMin >= sigmaMax){
+        std::cerr << "'sigmaMin' must be strictly less than 'sigmaMax'";
+    }
+    if (numSigma < 2){
+        std::cerr << "'numSigma' must at least be 2.";
+    }
+    if (rthresh < 0.){
+        std::cerr << "'rthresh' must be nonnegative.";
+    }
+    if (maxOverlap < 0.){
+        std::cerr << "'maxOverlap' must be nonnegative.";
+
+    }
+    // Create equidistant discretization of [sigmaMin, sigmaMax].
+    vector<double> sigmaVec;
+    double sigmaStep {(sigmaMax-sigmaMin)/(numSigma-1)};
+    for (int i=1; i<numSigma; i+=1){
+        double sigma {sigmaMin + i*sigmaStep};
+        sigmaVec.push_back(sigma);
+    }
+    // First, detect bright blobs.
+    BlobList brightBlobs = LoGBright(input, sigmaVec, rthresh, maxOverlap);
+    // Detect dark blobs by detecting blobs in the negative image.
+    BlobList darkBlobs = LoGBright(-input, sigmaVec, rthresh);
+    // Return both list of bright blobs and dark blobs.
+    return make_tuple(brightBlobs, darkBlobs);
 }
 
 

@@ -4,8 +4,8 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../src/blobs.hpp"
 #include <cstdlib>
+#include "blobDetection.hpp"
 
 
 TEST_CASE("Test Gaussian blob", ""){

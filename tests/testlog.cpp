@@ -4,7 +4,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../src/blobs.hpp"
+#include "blobDetection.hpp"
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
 
@@ -20,10 +20,12 @@ TEST_CASE("LoG applied to M54 galaxy", ""){
     Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
     test_image.convertTo(test_image, CV_32FC1);
     normalize(test_image, test_image, 0, 1, NORM_MINMAX);
-    // Get scales.
-    vector<double> sigmas {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+    // Set scale interval.
+    double sigmaMin {1};
+    double sigmaMax {15};
+    int numSteps {15};
     // Apply LoG.
-    tuple<BlobList, BlobList> blobs = LoG(test_image, sigmas, 0.1, 0.5);
+    tuple<BlobList, BlobList> blobs = LoG(test_image, sigmaMin, sigmaMax, numSteps, 0.1,0.5);
     BlobList brightBlobs = get<0>(blobs);
     BlobList darkBlobs = get<1>(blobs);
 
@@ -40,13 +42,12 @@ TEST_CASE("LoG applied to apple image", ""){
     Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
     test_image.convertTo(test_image, CV_32FC1);
     normalize(test_image, test_image, 0, 1, NORM_MINMAX);
-    // Get scales.
-    vector<double> sigmas;
-    for (int i=1; i<20; i++){
-        sigmas.push_back(5 * i);
-    }
+    // Set scale interval.
+    double sigmaMin {1};
+    double sigmaMax {100};
+    int numSigma {20};
     // Apply LoG.
-    tuple<BlobList, BlobList> blobs = LoG(test_image, sigmas, 0.1, 0.5);
+    tuple<BlobList, BlobList> blobs = LoG(test_image, sigmaMin, sigmaMax, numSigma, 0.1, 0.5);
     BlobList brightBlobs = get<0>(blobs);
     BlobList darkBlobs = get<1>(blobs);
 
@@ -61,10 +62,9 @@ TEST_CASE("Calling LoG with a color image raises a runtime error.", ""){
     REQUIRE(ifile);
     Mat test_image = imread( imageFile, IMREAD_COLOR);
     // Get scales.
-    vector<double> sigmas;
-    for (int i=1; i<20; i++){
-        sigmas.push_back(5 * i);
-    }
+    double sigmaMin {1};
+    double sigmaMax {100};
+    int numSigma {20};
     // Apply LoG.
-    REQUIRE_THROWS_AS(LoG(test_image, sigmas, 0.1, 0.5), runtime_error);
+    REQUIRE_THROWS_AS(LoG(test_image, sigmaMin, sigmaMax, numSigma, 0.1, 0.5), runtime_error);
 }

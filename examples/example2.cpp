@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
 #include <fstream>
-#include "blobs.hpp"
+#include "blobDetection.hpp"
 
 
 using namespace cv;
@@ -28,16 +28,15 @@ int main(){
     normalize(testImage, testImage, 0, 1, NORM_MINMAX);
     // Next we want to apply the Laplacian-of-Gaussians method for blob detection. For this we have to set the
     // scales we want to look at.
-    vector<double> sigmas;
-    for (int i=2; i<20; i++){
-        sigmas.push_back(i);
-    }
+    double sigmaMin {2};
+    double sigmaMax {20};
+    int numSigma {19};
     // We also have to set the threshold for blob detection and the maximum relative overlap for detected blobs.
     // Check the doc-string of the `LoG` function to find out more about those.
     double rthresh {0.02};
     double maxOverlap {0.2};
     // Now we can perform blob detection.
-    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmas, rthresh, maxOverlap);
+    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmaMin, sigmaMax, numSigma, rthresh, maxOverlap);
     // The LoG method returns a tuple of two `BlobList`-objects, corresponding to the detected bright and dark blobs.
     BlobList brightBlobs = get<0>(blobs);
     BlobList darkBlobs = get<1>(blobs);
@@ -57,5 +56,7 @@ int main(){
     waitKey(0);
     destroyWindow(nameOrig);
     destroyWindow(nameBlobs);
+    imwrite("hubble_small.jpg", 255 * testImage);
+    imwrite("hubble_with_blobs.jpg", 255 * imageWithBlobs);
     return 0;
 }

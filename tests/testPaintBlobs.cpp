@@ -4,7 +4,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../src/blobs.hpp"
+#include "blobDetection.hpp"
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
 
@@ -24,12 +24,11 @@ TEST_CASE("Test painting blobs in Hubble image", ""){
     testImage.convertTo(testImage, CV_32FC1);
     normalize(testImage, testImage, 0, 1, NORM_MINMAX);
     // Get scales.
-    vector<double> sigmas;
-    for (int i=2; i<20; i++){
-        sigmas.push_back(i);
-    }
+    double sigmaMin {2};
+    double sigmaMax {20};
+    int numSigma {19};
     // Apply LoG.
-    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmas, 0.02, 0.2);
+    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmaMin, sigmaMax, numSigma, 0.02, 0.2);
     BlobList brightBlobs = get<0>(blobs);
     BlobList darkBlobs = get<1>(blobs);
     // Now, call paintBlobs-function.
@@ -57,13 +56,12 @@ TEST_CASE("Paint bright blobs of M54 image", ""){
     normalize(testImage, testImage, 0, 1, NORM_MINMAX);
     // Upscale image
     resize(testImage, testImage, Size(), 10, 10, INTER_CUBIC);
-    // Get scales.
-    vector<double> sigmas;
-    for (int i=1; i<50; i+=1){
-        sigmas.push_back(i);
-    }
+    // Get sigmas.
+    double sigmaMin {1};
+    double sigmaMax {50};
+    int numSigma {50};
     // Apply LoG.
-    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmas, 0.05, 0.5);
+    tuple<BlobList, BlobList> blobs = LoG(testImage, sigmaMin, sigmaMax, numSigma,0.05, 0.5);
     BlobList brightBlobs = get<0>(blobs);
     // Now, call paintBlobs-function.
     Mat imageWithBlobs = paintBlobs(testImage, brightBlobs);

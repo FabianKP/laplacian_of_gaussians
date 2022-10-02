@@ -10,7 +10,7 @@
 // We also need to include OpenCV.
 #include <opencv2/opencv.hpp>
 // Include blobs-files.
-#include "blobs.hpp"
+#include "blobDetection.hpp"
 
 
 using namespace cv;
@@ -44,6 +44,8 @@ int main(){
     waitKey(0);
     destroyWindow(nameTest);
     destroyWindow(nameBlurred);
+    // Store the image.
+    imwrite("blurred_almonds.jpg", blurred_image);
     return 0;
 }
 

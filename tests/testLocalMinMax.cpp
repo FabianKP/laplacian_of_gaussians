@@ -6,7 +6,7 @@
 #include "catch.hpp"
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
-#include "../src/blobs.hpp"
+#include "blobDetection.hpp"
 
 
 using namespace cv;
@@ -45,114 +45,6 @@ TEST_CASE("Test dilate", ""){
 }
 
 
-TEST_CASE("Strict local max", ""){
-    String imageFile = "m54.jpg";
-    ifstream ifile;
-    ifile.open(imageFile);
-    REQUIRE(ifile);
-    int size = 1;
-    Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
-    // Then, compare against localMaxImage. Set pixel to 1 only if larger than punctuatedImage.
-    Mat localMaxima;
-    strictLocalMax2D(test_image, localMaxima);
-    // Show dilated image.
-    String originalName = "Original image";
-    String localMaximaName = "Comparison";
-    namedWindow(originalName, WINDOW_NORMAL);
-    namedWindow(localMaximaName, WINDOW_NORMAL);
-    imshow(originalName, test_image);
-    imshow(localMaximaName, localMaxima);
-    waitKey(0);
-    destroyWindow(originalName);
-    destroyWindow(localMaximaName);
-}
-
-
-TEST_CASE("Get coordinates of strict local maxima", ""){
-    // Get test image.
-    String imageFile = "m54.jpg";
-    ifstream ifile;
-    ifile.open(imageFile);
-    REQUIRE(ifile);
-    Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
-    test_image.convertTo(test_image, CV_8U);
-    // Get coordinates of local maximizers.
-    vector<Point> localMaximizers = strictLocalMaximizers2D(test_image);
-    // Create image where local maximizers are set to 1 rest 0.
-    Mat localMaxima = Mat::zeros(test_image.rows, test_image.cols, CV_8U);
-    for (auto point : localMaximizers){
-        localMaxima.at<uchar>(point) = 255;
-    }
-    // Show original image and local maxima.
-    String originalName = "Original image";
-    String localMaximaName = "Comparison";
-    namedWindow(originalName, WINDOW_NORMAL);
-    namedWindow(localMaximaName, WINDOW_NORMAL);
-    imshow(originalName, test_image);
-    imshow(localMaximaName, localMaxima);
-    waitKey(0);
-    destroyWindow(originalName);
-    destroyWindow(localMaximaName);
-}
-
-
-TEST_CASE("Image of strict local maxima in 3d", ""){
-    // Get test image.
-    // Get test image.
-    String imageFile = "m54.jpg";
-    ifstream ifile;
-    ifile.open(imageFile);
-    REQUIRE(ifile);
-    Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
-    test_image.convertTo(test_image, CV_8U);
-    // Since we need a 3-dimensional object for the test, compute a scale-space representation.
-    vector<double> sigmaVec = {1., 3., 5., 7., 10};
-    vector<Mat> testSSR = scaleSpaceRepresentation(test_image, sigmaVec, sigmaVec);
-    // convert vector of 2d-matrices to 3d-matrix.
-    Mat testMat = stackToMatrix(testSSR);
-    // Get local maxima.
-    Mat localMaxima;
-    strictLocalMax3D(testMat, localMaxima);
-    // Check that output has matching dimensions.
-    REQUIRE(localMaxima.dims == testMat.dims);
-    REQUIRE(localMaxima.size == testMat.size);
-}
-
-TEST_CASE("Strict local maxima in 3d", ""){
-    // Get test image.
-    // Get test image.
-    String imageFile = "m54.jpg";
-    ifstream ifile;
-    ifile.open(imageFile);
-    REQUIRE(ifile);
-    Mat test_image = imread( imageFile, IMREAD_GRAYSCALE);
-    test_image.convertTo(test_image, CV_8U);
-    // Since we need a 3-dimensional object for the test, compute a scale-space representation.
-    vector<double> sigmaVec = {1., 1.5, 2., 2.5, 3};
-    vector<Mat> testSSR = scaleSpaceRepresentation(test_image, sigmaVec, sigmaVec);
-    // convert vector of 2d-matrices to 3d-matrix.
-    Mat testMat = stackToMatrix(testSSR);
-    // Get 3d-mat of local maximizers.
-    Mat localMaximizers;
-    int k = testMat.size[0];
-    int m = testMat.size[1];
-    int n = testMat.size[2];
-    justDilate3d(testMat, localMaximizers);
-    // Turn into stack.
-    vector<Mat> localMaximizerStack = matrixToStack(localMaximizers);
-    // Visualize stack.
-    for (int i=0; i < localMaximizerStack.size(); i++){
-        String name_i = "Scale " + to_string(i);
-        namedWindow(name_i, WINDOW_NORMAL);
-        // equalize so that I see something!
-        double maxval, minval;
-        minMaxLoc(localMaximizerStack[i], &minval, &maxval);
-        imshow(name_i, localMaximizerStack[i] * 255 / maxval);
-    }
-    waitKey(0);
-}
-
-
 TEST_CASE("Coordinates of strict local maxima in 3d", ""){
     // Get test image.
     // Get test image.
@@ -165,12 +57,10 @@ TEST_CASE("Coordinates of strict local maxima in 3d", ""){
     // Since we need a 3-dimensional object for the test, compute a scale-space representation.
     vector<double> sigmaVec = {1., 3., 5., 7., 10};
     vector<Mat> testSSR = scaleSpaceRepresentation(test_image, sigmaVec, sigmaVec);
-    // convert vector of 2d-matrices to 3d-matrix.
-    Mat testMat = stackToMatrix(testSSR);
     // Get local maximizers
-    vector<Point3i> localMaximizers = strictLocalMaximizers3D(testMat);
+    vector<CriticalPoint> localMaximizers = strictLocalMaximizer3D(testSSR);
     cout << "Strict local maximums have been found at point:" << endl;
     for(auto point : localMaximizers){
-        cout << "(" << point.x << ", " << point.y << ")" << endl;
+        cout << "(" << point.i << ", " << point.j << ")" << endl;
     }
 }
