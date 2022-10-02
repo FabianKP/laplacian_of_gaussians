@@ -4,7 +4,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../blobs.h"
+#include "../src/blobs.hpp"
 
 
 TEST_CASE("OpenCV-dilate 3D", ""){

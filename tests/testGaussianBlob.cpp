@@ -4,7 +4,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../blobs.h"
+#include "../src/blobs.hpp"
 #include <cstdlib>
 
 
@@ -13,10 +13,9 @@ TEST_CASE("Test Gaussian blob", ""){
      * Tests basic functionality of the GaussianBlob class.
      */
      double sigma1 = 2.0;
-     double sigma2 = 3.0;
-     double x1 = 10.;
-     double x2 = 50.;
-     double angle = 0.4;
-     GaussianBlob gaussianBlob {x1, x2, sigma1, sigma2, angle};
+     int x1 = 10.;
+     int x2 = 50.;
+     float strength = 0.4;
+     GaussianBlob gaussianBlob {x1, x2, sigma1, strength};
 }
 

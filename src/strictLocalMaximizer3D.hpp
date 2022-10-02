@@ -3,8 +3,8 @@
 // Created by fabian on 18.08.22.
 //
 
-#ifndef BLOBS_CPP_STRICTLOCALMAXIMIZER3D_H
-#define BLOBS_CPP_STRICTLOCALMAXIMIZER3D_H
+#ifndef BLOBS_CPP_STRICTLOCALMAXIMIZER3D_HPP
+#define BLOBS_CPP_STRICTLOCALMAXIMIZER3D_HPP
 
 
 using namespace std;
@@ -159,4 +159,4 @@ vector<CriticalPoint> strictLocalMinimizer3D(const vector<Mat>& input){
 }
 
 
-#endif //BLOBS_CPP_STRICTLOCALMAXIMIZER3D_H
+#endif //BLOBS_CPP_STRICTLOCALMAXIMIZER3D_HPP

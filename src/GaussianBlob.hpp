@@ -2,8 +2,8 @@
 // Created by fabian on 24.06.22.
 //
 
-#ifndef BLOBS_CPP_GAUSSIANBLOB_H
-#define BLOBS_CPP_GAUSSIANBLOB_H
+#ifndef BLOBS_CPP_GAUSSIANBLOB_HPP
+#define BLOBS_CPP_GAUSSIANBLOB_HPP
 
 
 /**
@@ -81,4 +81,4 @@ private:
 };
 
 
-#endif //BLOBS_CPP_GAUSSIANBLOB_H
+#endif //BLOBS_CPP_GAUSSIANBLOB_HPP

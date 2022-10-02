@@ -2,12 +2,12 @@
 // Created by fabian on 17.08.22.
 //
 
-#ifndef BLOBS_CPP_STACKTOMATRIX_H
-#define BLOBS_CPP_STACKTOMATRIX_H
+#ifndef BLOBS_CPP_STACKTOMATRIX_HPP
+#define BLOBS_CPP_STACKTOMATRIX_HPP
 
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
-#include "gaussian_filter.h"
+#include "gaussian_filter.hpp"
 
 using namespace cv;
 using namespace std;
@@ -69,4 +69,4 @@ vector<Mat> matrixToStack(const Mat& input){
 }
 
 
-#endif //BLOBS_CPP_STACKTOMATRIX_H
+#endif //BLOBS_CPP_STACKTOMATRIX_HPP

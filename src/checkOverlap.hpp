@@ -2,11 +2,11 @@
 // Created by fabian on 26.08.22.
 //
 
-#ifndef BLOBS_CPP_CHECKOVERLAP_H
-#define BLOBS_CPP_CHECKOVERLAP_H
+#ifndef BLOBS_CPP_CHECKOVERLAP_HPP
+#define BLOBS_CPP_CHECKOVERLAP_HPP
 
 #include <cmath>
-#include "GaussianBlob.h"
+#include "GaussianBlob.hpp"
 
 using namespace std;
 
@@ -68,4 +68,4 @@ bool checkOverlap(const GaussianBlob& blob1, const GaussianBlob& blob2, double m
 }
 
 
-#endif //BLOBS_CPP_CHECKOVERLAP_H
+#endif //BLOBS_CPP_CHECKOVERLAP_HPP

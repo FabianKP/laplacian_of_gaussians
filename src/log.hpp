@@ -2,15 +2,15 @@
 // Created by fabian on 24.06.22.
 //
 
-#ifndef BLOBS_CPP_LOG_H
-#define BLOBS_CPP_LOG_H
+#ifndef BLOBS_CPP_LOG_HPP
+#define BLOBS_CPP_LOG_HPP
 
 #include <opencv2/opencv.hpp>
 #include <cmath>
-#include "GaussianBlob.h"
-#include "scaleSpaceRepresentation.h"
-#include "strictLocalMaximizer3D.h"
-#include "checkOverlap.h"
+#include "GaussianBlob.hpp"
+#include "scaleSpaceRepresentation.hpp"
+#include "strictLocalMaximizer3D.hpp"
+#include "checkOverlap.hpp"
 
 using namespace cv;
 using namespace std;
@@ -149,4 +149,4 @@ tuple<BlobList, BlobList> LoG(const Mat& input, const vector<double>& sigma, con
 }
 
 
-#endif //BLOBS_CPP_LOG_H
+#endif //BLOBS_CPP_LOG_HPP

@@ -19,6 +19,17 @@ This library provides two efficient C++ functions:
 
 For a mathematical description of the method and its background, see [here]().
 
+
+Usage
+-----
+
+```
+#include <opencv2/opencv.hpp>
+#include "blobs.h"
+#include <cstdlib>
+```
+
+
 TODO:
 -----
 

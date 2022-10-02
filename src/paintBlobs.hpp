@@ -2,13 +2,13 @@
 // Created by fabian on 27.08.22.
 //
 
-#ifndef BLOBS_CPP_PAINTBLOBS_H
-#define BLOBS_CPP_PAINTBLOBS_H
+#ifndef BLOBS_CPP_PAINTBLOBS_HPP
+#define BLOBS_CPP_PAINTBLOBS_HPP
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include "GaussianBlob.h"
+#include "GaussianBlob.hpp"
 
 using namespace cv;
 using namespace std;
@@ -73,4 +73,4 @@ void paintBlobs(Mat& image, const tuple<BlobList, BlobList>& blobs){
 
 
 
-#endif //BLOBS_CPP_PAINTBLOBS_H
+#endif //BLOBS_CPP_PAINTBLOBS_HPP

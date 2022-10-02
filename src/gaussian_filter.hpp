@@ -2,8 +2,8 @@
 // Created by fabian on 01.08.22.
 //
 
-#ifndef BLOBS_CPP_GAUSSIAN_FILTER_H
-#define BLOBS_CPP_GAUSSIAN_FILTER_H
+#ifndef BLOBS_CPP_GAUSSIAN_FILTER_HPP
+#define BLOBS_CPP_GAUSSIAN_FILTER_HPP
 
 #include <cstdlib>
 #include <cmath>
@@ -106,4 +106,4 @@ Mat gaussianFilter2d(const Mat& image, double sigma1, double sigma2, double trun
 }
 
 
-#endif //BLOBS_CPP_GAUSSIAN_FILTER_H
+#endif //BLOBS_CPP_GAUSSIAN_FILTER_HPP

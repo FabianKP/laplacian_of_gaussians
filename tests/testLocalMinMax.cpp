@@ -6,7 +6,7 @@
 #include "catch.hpp"
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
-#include "../blobs.h"
+#include "../src/blobs.hpp"
 
 
 using namespace cv;

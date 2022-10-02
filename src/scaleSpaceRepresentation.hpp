@@ -2,12 +2,12 @@
 // Created by fabian on 24.06.22.
 //
 
-#ifndef BLOBS_CPP_SCALESPACEREPRESENTATION_H
-#define BLOBS_CPP_SCALESPACEREPRESENTATION_H
+#ifndef BLOBS_CPP_SCALESPACEREPRESENTATION_HPP
+#define BLOBS_CPP_SCALESPACEREPRESENTATION_HPP
 
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
-#include "gaussian_filter.h"
+#include "gaussian_filter.hpp"
 
 
 using namespace cv;
@@ -89,4 +89,4 @@ vector<Mat> scaleNormalizedLaplacian(const vector<Mat>& ssr, const vector<double
 }
 
 
-#endif //BLOBS_CPP_SCALESPACEREPRESENTATION_H
+#endif //BLOBS_CPP_SCALESPACEREPRESENTATION_HPP
