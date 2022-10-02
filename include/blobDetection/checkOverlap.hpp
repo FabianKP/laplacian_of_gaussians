@@ -17,7 +17,7 @@ using namespace std;
 *
 * @param blob1 The first blob.
 * @param blob2 The second blob.
-* @return The relative overlap.
+* @return The relative overlap, a number between 0 and 1.
 */
 double computeRelativeOverlap(const GaussianBlob& blob1, const GaussianBlob& blob2){
     double relativeOverlap;

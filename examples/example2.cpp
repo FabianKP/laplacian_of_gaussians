@@ -1,7 +1,3 @@
-//
-// Created by fabian on 02.10.22.
-// Example for use of LoG.
-//
 
 
 #include <cstdlib>

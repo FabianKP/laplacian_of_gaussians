@@ -130,7 +130,10 @@ BlobList LoGBright(const Mat& input, const vector<double>& sigma, const double r
  * Performs blob detection using the Laplacian-of-Gaussians method. Detects both bright and dark blobs at the same time.
  *
  * @param input The input image. Must be 2-dimensional.
- * @param sigma The vector of standard deviations.
+ * @param sigmaMin Minimum standard deviation in Gaussian kernel.
+ * @param sigmaMax Maximum standard deviation in Gaussian kernel.
+ * @param numSigma The interval [sigmaMin, sigmaMax] of standard deviations is discretized into
+ *  the points sigmaMin + i*(sigmaMax-sigmaMin)/(numSigma-1), i=0,..., numSigma-1.
  * @param rthresh Relative threshold for detection. Must be between 0 and 1.
  *  A blob is detected if the corresponding scale-normalized Laplacian is less than rthresh times the global minimum.
  * @param maxOverlap Maximal overlap for detected blobs. Must be between 0 and 1.

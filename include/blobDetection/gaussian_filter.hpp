@@ -22,21 +22,9 @@ vector<double> discreteGaussianKernelScaled(double scale, int radius=4){
         uint i_abs = abs(i);
         kernel[radius + i] = exp(-t) * cyl_bessel_i(double(i_abs), t);
     }
-    double kernelMax = *max_element(kernel.begin(), kernel.end());
     return kernel;
 }
 
-vector<double> discreteGaussianKernelUnit(double scale, int radius=4){
-    int kernel_size = 2 * radius + 1;
-    vector<double> kernel(kernel_size);
-    // Fill kernel with Bessel values.
-    for (int i=-radius; i <= radius; i++){
-        uint i_abs = abs(i);
-        kernel[radius + i] = exp(-1) * cyl_bessel_i(double(i_abs) / scale, 1) / scale;
-    }
-    double kernelMax = *max_element(kernel.begin(), kernel.end());
-    return kernel;
-}
 
 /**
  * Returns the one-dimensional normalized kernel for the discrete analog of the Gaussian.
@@ -53,7 +41,6 @@ vector<double> discreteGaussianKernel(double sigma, double truncation=4.0){
      int kernel_size = 2 * kernel_radius + 1;
      vector<double> kernel(kernel_size);
      kernel = discreteGaussianKernelScaled(sigma, kernel_radius);
-     double kernelMax = *max_element(kernel.begin(), kernel.end());
      return kernel;
 }
 

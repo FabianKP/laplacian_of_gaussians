@@ -11,7 +11,7 @@
 using namespace std;
 
 
-TEST_CASE("Compute relative overlap of non-intersecting blobs", ""){
+TEST_CASE("Compute relative overlap of non-intersecting blobs.", ""){
     // Create two blobs that do not intersect.
     int i1 = 0;
     int j1 = 0;
@@ -52,7 +52,7 @@ TEST_CASE("Compute relative overlap when one blob is inside the other one."){
 }
 
 
-TEST_CASE("Compute relative overlap of intersecting blobs", ""){
+TEST_CASE("Compute relative overlap of intersecting blobs.", ""){
     int i1 = 0;
     int j1 = 0;
     double r1 = 20;

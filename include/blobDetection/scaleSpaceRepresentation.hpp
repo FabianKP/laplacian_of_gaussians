@@ -1,5 +1,5 @@
 //
-// Created by fabian on 24.06.22.
+// Created by fabian on 25.06.22.
 //
 
 #ifndef BLOBS_CPP_SCALESPACEREPRESENTATION_HPP

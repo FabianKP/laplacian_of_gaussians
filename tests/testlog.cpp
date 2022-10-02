@@ -11,7 +11,7 @@
 using namespace cv;
 
 
-TEST_CASE("LoG applied to M54 galaxy", ""){
+TEST_CASE("LoG applied to M54 galaxy.", ""){
     // Load M54 test image.
     String imageFile = "m54.jpg";
     ifstream ifile;
@@ -33,7 +33,7 @@ TEST_CASE("LoG applied to M54 galaxy", ""){
 }
 
 
-TEST_CASE("LoG applied to apple image", ""){
+TEST_CASE("LoG applied to apple image.", ""){
     // Load M54 test image.
     String imageFile = "apples.png";
     ifstream ifile;

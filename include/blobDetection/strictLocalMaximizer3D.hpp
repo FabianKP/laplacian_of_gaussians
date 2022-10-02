@@ -12,7 +12,7 @@ using namespace cv;
 
 
 /**
- * Represents a critical point of a 3-dimensional array.
+ * Represents a critical point of a 3-dimensional array as a simple struct.
  */
 struct CriticalPoint{
     ulong k;      // Position along the first axis.

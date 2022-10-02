@@ -8,7 +8,7 @@
 #include "blobDetection.hpp"
 
 
-TEST_CASE("Test Gaussian blob", ""){
+TEST_CASE("Test Gaussian blob.", ""){
     /**
      * Tests basic functionality of the GaussianBlob class.
      */

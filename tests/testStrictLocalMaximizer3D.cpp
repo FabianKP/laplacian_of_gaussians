@@ -12,7 +12,7 @@ using namespace std;
 using namespace cv;
 
 
-TEST_CASE("Mat-stack to 3d vector", ""){
+TEST_CASE("Mat-stack to 3d vector.", ""){
     String imageFile = "m54.jpg";
     ifstream ifile;
     ifile.open(imageFile);

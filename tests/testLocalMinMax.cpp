@@ -45,7 +45,7 @@ TEST_CASE("Test dilate", ""){
 }
 
 
-TEST_CASE("Coordinates of strict local maxima in 3d", ""){
+TEST_CASE("Coordinates of strict local maxima in 3d.", ""){
     // Get test image.
     // Get test image.
     String imageFile = "m54.jpg";

@@ -1,7 +1,3 @@
-//
-// Created by fabian on 02.10.22.
-// Usage example for "gaussianFilter2D".
-//
 
 // First, include some stuff for file-handling.
 #include <fstream>

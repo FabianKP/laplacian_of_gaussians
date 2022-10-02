@@ -21,7 +21,7 @@ public:
      * @param x1 Row at which the blob is located.
      * @param x2 Column at which the blob is located.
      * @param sigma Standard deviation associated to the blob.
-     * @param log_value The value of the scale-normalized Laplacian associated to the blob.
+     * @param strength The value of the scale-normalized Laplacian associated to the blob.
      */
     GaussianBlob(int x1, int x2, double sigma, float strength){
         m_x1 = x1;

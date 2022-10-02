@@ -20,7 +20,7 @@ using namespace std;
 using std::filesystem::current_path;
 
 
-TEST_CASE( "Discrete Gaussian kernel", ""){
+TEST_CASE( "Discrete Gaussian kernel.", ""){
     /**
      * Test for discreteGaussianKernel
      */
@@ -50,7 +50,7 @@ TEST_CASE( "Discrete Gaussian kernel", ""){
 }
 
 
-TEST_CASE("Gaussian filter 2d", ""){
+TEST_CASE("Gaussian filter 2d.", ""){
     /**
      * Test for gaussianFilter2d.
      */

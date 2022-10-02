@@ -12,7 +12,7 @@
 using namespace cv;
 
 
-TEST_CASE("Test painting blobs in Hubble image", ""){
+TEST_CASE("Test painting blobs in Hubble image.", ""){
     // First, apply LoG to get blobs.
     // Load M54 test image.
     String imageFile = "hubble.jpg";

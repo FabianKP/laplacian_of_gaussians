@@ -11,7 +11,7 @@
 using namespace cv;
 
 
-TEST_CASE("Scale-space representation of an image", ""){
+TEST_CASE("Scale-space representation of an image.", ""){
     /**
      Simple test for the function 'scaleSpaceRepresentation'.
      */

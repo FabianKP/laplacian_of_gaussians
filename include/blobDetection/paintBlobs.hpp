@@ -37,7 +37,7 @@ void addCircle(const BlobList& blobs, Mat& image, const Scalar& color){
  * @param image The image on which the blobs shall be drawn. Must be 2-dimensional.
  * @param brightBlobs A list of detected high-intensity blobs.
  * @param darkBlobs A list of detected low-intensity blobs.
- * @return Returns image with blobs marked by colored circles.
+ * @return Returns image with blobs marked by colored circles. Bright blobs are green, dark blobs are red.
  */
 Mat paintBlobs(Mat& image, const BlobList& brightBlobs = BlobList(), const BlobList& darkBlobs = BlobList()){
     // Make sure that the image has right format and scale.

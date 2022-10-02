@@ -14,6 +14,4 @@
 #include "blobDetection/stackToMatrix.hpp"
 #include "blobDetection/paintBlobs.hpp"
 
-void hello();
-
 #endif //BLOBS_CPP_BLOBS_HPP
