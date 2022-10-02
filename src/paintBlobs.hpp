@@ -37,24 +37,23 @@ void addCircle(const BlobList& blobs, Mat& image, const Scalar& color){
  * @param image The image on which the blobs shall be drawn. Must be 2-dimensional.
  * @param brightBlobs A list of detected high-intensity blobs.
  * @param darkBlobs A list of detected low-intensity blobs.
+ * @return Returns image with blobs marked by colored circles.
  */
-void paintBlobs(Mat& image, const BlobList& brightBlobs = BlobList(), const BlobList& darkBlobs = BlobList()){
+Mat paintBlobs(Mat& image, const BlobList& brightBlobs = BlobList(), const BlobList& darkBlobs = BlobList()){
     // Make sure that the image has right format and scale.
-    Mat convertedImage;
-    image.convertTo(convertedImage, CV_32FC1);
-    normalize(convertedImage, convertedImage, 0, 1, NORM_MINMAX);
+    Mat imageWithBlobs;
+    image.convertTo(imageWithBlobs, CV_32FC1);
+    normalize(imageWithBlobs, imageWithBlobs, 0, 1, NORM_MINMAX);
     // Convert image to color.
-    cvtColor(convertedImage, convertedImage, COLOR_GRAY2BGR);
+    cvtColor(imageWithBlobs, imageWithBlobs, COLOR_GRAY2BGR);
     // For each blob, draw circle.
     // Bright blobs are visualized with green circles.
     Scalar green(0, 255, 0);
-    addCircle(brightBlobs, convertedImage, green);
+    addCircle(brightBlobs, imageWithBlobs, green);
     // Dark blobs are visualized with red circles.
     Scalar red(0, 0, 255);
-    addCircle(darkBlobs, convertedImage, red);
-    namedWindow("Image with blobs", WINDOW_NORMAL);
-    imshow("Image with blobs", convertedImage);
-    waitKey(0);
+    addCircle(darkBlobs, imageWithBlobs, red);
+    return imageWithBlobs;
 }
 
 
@@ -64,11 +63,11 @@ void paintBlobs(Mat& image, const BlobList& brightBlobs = BlobList(), const Blob
  * @param image The image on which the blobs shall be drawn. Must be 2-dimensional.
  * @param blobs The first tuple element corresponds to bright blobs, the second to dark blobs.
  */
-void paintBlobs(Mat& image, const tuple<BlobList, BlobList>& blobs){
+Mat paintBlobs(Mat& image, const tuple<BlobList, BlobList>& blobs){
     // Extract blobs and then call corresponding version of this function.
     const BlobList& brightBlobs = get<0>(blobs);
     const BlobList& darkBlobs = get<1>(blobs);
-    paintBlobs(image, brightBlobs, darkBlobs);
+    return paintBlobs(image, brightBlobs, darkBlobs);
 }
 
 
