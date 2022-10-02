@@ -169,34 +169,6 @@ The output should be this:
 ![hubble_with_blobs.jpg](examples/hubble_with_blobs.jpg)
 
 
-TODOs:
------
-
-1. Install opencv and test your installation (plot something). DONE
-2. Implement N-dimensional convolution with Bessel kernel. DONE
-3. Test. DONE
-4. Implement Laplacian-of-Gaussians method. DONE
-   1. Make a blob-class. DONE
-   2. Make a scale-space representation function. DONE
-   3. Make a normalized Laplacian function. DONE.
-   4. Implement LoG. DONE
-      1. Implement a method for finding strict local maxima/minima in 3d. DONE.
-      2. Implement a method for intersection detection. DONE.
-      3. Combine into LoG for finding bright blobs. DONE
-      4. Extend so that LoG identifies both bright and dark blobs. DONE
-5. Implement paintBlobs-function.
-   1. Implement and test. DONE
-   2. Solve the color problem (when you give paintBlobs a grayscale image). DONE
-6. Refactor code. DONE
-   1. Improve comments. DONE
-   2. Make LoG safer. If you give it a non-grayscale image, it should raise an error or convert. DONE.
-7. Find more convincing examples. DONE
-8. Write a mini-tutorial in the README. DONE
-9. Create and test library. DONE
-10. Write installation instructions in README. DONE
-11. Set repository to "public".
-
-
 Possible future features:
 -------------------------
 
